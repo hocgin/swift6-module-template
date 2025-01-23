@@ -6,7 +6,6 @@
 //
 
 import CoreData
-import SwiftHit
 import SwiftUI
 import Voyager
 
