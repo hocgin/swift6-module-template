@@ -29,6 +29,15 @@ struct BootApp: App {
         }
     }
 
+    func loadDistrictData() async {
+        /// 1. 检查数据库是否有数据
+        /// 2. 拉取数据
+        /// 3. 删除数据
+        /// 4. 新增数据
+
+        let district = await globalState.Api.getDistrictData()
+    }
+
     init() {
 //        print(SwiftHit.text)
     }
