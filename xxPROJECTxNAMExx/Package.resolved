@@ -1,0 +1,132 @@
+{
+  "originHash" : "17cf7553869ac44323eb346d388099e62d8f68b38490235cd2c02dc66cbb9d3c",
+  "pins" : [
+    {
+      "identity" : "acarousel",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/JWAutumn/ACarousel",
+      "state" : {
+        "revision" : "8a322513580f21288fd87eb3a1341c247b3e2a76",
+        "version" : "0.2.0"
+      }
+    },
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire",
+      "state" : {
+        "revision" : "513364f870f6bfc468f9d2ff0a95caccc10044c5",
+        "version" : "5.10.2"
+      }
+    },
+    {
+      "identity" : "asn1swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tikhop/ASN1Swift",
+      "state" : {
+        "revision" : "403cd95194e6a962e16db7c0d373d89fce83e0f7",
+        "version" : "1.2.7"
+      }
+    },
+    {
+      "identity" : "keychain-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/evgenyneu/keychain-swift",
+      "state" : {
+        "revision" : "5e1b02b6a9dac2a759a1d5dbc175c86bd192a608",
+        "version" : "24.0.0"
+      }
+    },
+    {
+      "identity" : "sheetkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/fatbobman/SheetKit",
+      "state" : {
+        "revision" : "daadabc0f142e2e96a210d19c436b8e2c4bdeb46",
+        "version" : "0.1.0"
+      }
+    },
+    {
+      "identity" : "smartcodable",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/hocgin/SmartCodable",
+      "state" : {
+        "revision" : "541746db73b5381ac7d533d7b13b261154f1a20a",
+        "version" : "3.4.0"
+      }
+    },
+    {
+      "identity" : "snapkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SnapKit/SnapKit",
+      "state" : {
+        "revision" : "2842e6e84e82eb9a8dac0100ca90d9444b0307f4",
+        "version" : "5.7.1"
+      }
+    },
+    {
+      "identity" : "swift-log",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-log",
+      "state" : {
+        "revision" : "96a2f8a0fa41e9e09af4585e2724c4e825410b91",
+        "version" : "1.6.2"
+      }
+    },
+    {
+      "identity" : "swifthit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/hocgin/SwiftHit",
+      "state" : {
+        "revision" : "20325f53bbb895fc7855c4e5d5b33bb2393b3d12",
+        "version" : "0.0.49"
+      }
+    },
+    {
+      "identity" : "swiftui-cached-async-image",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lorenzofiamingo/swiftui-cached-async-image",
+      "state" : {
+        "revision" : "467a3d17479887943ab917a379e62bbaff60ac8a",
+        "version" : "2.1.1"
+      }
+    },
+    {
+      "identity" : "toast-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/BastiaanJansen/toast-swift",
+      "state" : {
+        "revision" : "b8f0de845abca47eee747b6e671f1141ec4dcf3e",
+        "version" : "2.1.3"
+      }
+    },
+    {
+      "identity" : "tpinappreceipt",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tikhop/TPInAppReceipt",
+      "state" : {
+        "revision" : "e135055eaeba5a52874b7f9b290f42890cbe981f",
+        "version" : "3.4.1"
+      }
+    },
+    {
+      "identity" : "voyager",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/bryan-vh/Voyager",
+      "state" : {
+        "revision" : "bdc75946f21efb27bf068012ef395c7f2c305da9",
+        "version" : "1.3.0"
+      }
+    },
+    {
+      "identity" : "zipfoundation",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/weichsel/ZIPFoundation",
+      "state" : {
+        "revision" : "02b6abe5f6eef7e3cbd5f247c5cc24e246efcfe0",
+        "version" : "0.9.19"
+      }
+    }
+  ],
+  "version" : 3
+}

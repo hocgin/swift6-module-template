@@ -5,26 +5,28 @@
 //  Created by __AUTHOR NAME__ on __TODAYS_DATE__.
 //
 
+import CoreData
+import SwiftHit
 import SwiftUI
-import xxPROJECTxNAMExx
+import Voyager
 
-struct SwiftUIxxPROJECTxNAMExx: UIViewRepresentable {
-    func makeUIView(context: Context) -> UIView {
-        return xxPROJECTxNAMExx()
-    }
-
-    func updateUIView(_ uiView: UIView, context: Context) {
-    }
+enum AppRoute: Route {
+    case main
 }
 
-struct ContentView: View {
+struct BootView: View {
+    @StateObject var router = Router<AppRoute>(root: .main)
+
     var body: some View {
-        VStack(alignment: .center) {
-            SwiftUIxxPROJECTxNAMExx()
+        NavVoyagerView(router: router) { route in
+            switch route {
+            case .main: Text("Main View")
+            default: Text("default View")
+            }
         }
     }
 }
 
 #Preview {
-    ContentView()
+    BootView()
 }
