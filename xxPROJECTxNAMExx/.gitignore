@@ -60,3 +60,17 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+
+# 补充
+.DS_Store
+.idea
+.fastRequest
+*.xcuserstate
+
+project.xcworkspace/
+UserInterfaceState.xcuserstate
+oclint.html
+derivedData/
+UserInterface.xcuserstate
+*.xcbkptlist
