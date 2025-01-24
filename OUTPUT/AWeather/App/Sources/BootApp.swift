@@ -23,6 +23,7 @@ struct BootApp: App {
                 .preferredColorScheme(UserDefaults.standard.theme.colorScheme)
                 .onAppear {
                     Task {
+                        await loadDistrictData()
                         await globalState.Api.fetchWeatherMock()
                     }
                 }
@@ -30,12 +31,23 @@ struct BootApp: App {
     }
 
     func loadDistrictData() async {
-        /// 1. 检查数据库是否有数据
-        /// 2. 拉取数据
-        /// 3. 删除数据
-        /// 4. 新增数据
+        /// 1. 检查数据库最后一条数据
+        if let lastDistrict = globalState.CoreData.lastDistrict() {
+            Log.core.debug("本地已有地理位置数据，不进行同步。数据同步时间 = \(lastDistrict.createdAt)")
+            return
+        }
 
+        /// 2. 拉取数据
         let district = await globalState.Api.getDistrictData()
+        Log.network.debug("同步地理位置数量 size = \(district.count)")
+
+        if district.isEmpty {
+            Log.network.warning("拉取地理位置数据失败 size = 0")
+            return
+        }
+
+        /// 3. 删除数据 & 新增数据
+        globalState.CoreData.importDistrictData(district)
     }
 
     init() {
