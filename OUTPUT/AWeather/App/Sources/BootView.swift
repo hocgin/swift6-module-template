@@ -39,7 +39,7 @@ struct BootView: View {
     var body: some View {
         NavVoyagerView(router: router) { route in
             switch route {
-            case .main: MainView()
+            case .main: AddLocationView()
             case .weather: MainView()
             case .setting: SettingView()
             case .addLocation: AddLocationView()
