@@ -13,14 +13,12 @@ import SwiftUI
 @main
 struct BootApp: App {
     @StateObject private var globalState = GlobalState.shared
-    @StateObject private var locationKit: LocationKit = .init()
 
     var body: some Scene {
         WindowGroup {
             let _ = Log.core.info("theme = \(UserDefaults.standard.theme)")
             BootView()
                 .environmentObject(globalState)
-                .environmentObject(locationKit)
                 .environment(\.managedObjectContext, globalState.CoreData.viewContext)
                 .preferredColorScheme(UserDefaults.standard.theme.colorScheme)
                 .onAppear {

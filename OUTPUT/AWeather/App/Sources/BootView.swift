@@ -33,16 +33,17 @@ enum AppRoute: Route {
 
 struct BootView: View {
     @EnvironmentObject private var appState: GlobalState
-    @EnvironmentObject private var locationKit: LocationKit
+    @StateObject private var locationKit: LocationKit = .init()
     @StateObject var router = Router<AppRoute>(root: .main)
+    @State var latlon: (CGFloat, CGFloat)? = nil
 
     var body: some View {
         NavVoyagerView(router: router) { route in
             switch route {
-            case .main: AddLocationView()
+            case .main: AddLocationView(latlon: latlon ?? (0, 0))
             case .weather: MainView()
             case .setting: SettingView()
-            case .addLocation: AddLocationView()
+            case .addLocation: AddLocationView(latlon: latlon ?? (0, 0))
             case .dayDetail(let date, let chart): DayDetailView(date: date, chart: chart)
             case .aqiDetail: AQIDetailView()
             case .sunDetail: SunDetailView()
@@ -51,7 +52,8 @@ struct BootView: View {
             }
         }.onTapGesture {
             locationKit.requestAuthorization()
-            Log.map.debug("当前的位置 \(locationKit.getCurrentLocation())")
+            latlon = locationKit.getCurrentLocation()
+            Log.map.debug("当前的位置 \(latlon)")
         }
     }
 }
