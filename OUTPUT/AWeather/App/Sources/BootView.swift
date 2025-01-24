@@ -60,4 +60,6 @@ struct BootView: View {
 
 #Preview {
     BootView()
+        .environmentObject(GlobalState.shared)
+        .environment(\.managedObjectContext, GlobalState.shared.CoreData.viewContext)
 }
