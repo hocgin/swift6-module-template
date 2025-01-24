@@ -33,8 +33,8 @@ enum AppRoute: Route {
 
 struct BootView: View {
     @EnvironmentObject private var appState: GlobalState
+    @EnvironmentObject private var locationKit: LocationKit
     @StateObject var router = Router<AppRoute>(root: .main)
-    var locationKit: LocationKit = .init()
 
     var body: some View {
         NavVoyagerView(router: router) { route in
