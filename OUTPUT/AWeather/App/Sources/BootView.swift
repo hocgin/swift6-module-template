@@ -38,9 +38,9 @@ struct BootView: View {
     var body: some View {
         NavVoyagerView(router: router) { route in
             switch route {
-            case .main: MainView()
+//            case .main: MainView()
             case .main: AddLocationView(latitude: 0, longitude: 0)
-//            case .weather: MainView()
+            case .weather: MainView()
             case .setting: SettingView()
             case .addLocation: AddLocationView(latitude: 0, longitude: 0)
             case .dayDetail(let date, let chart): DayDetailView(date: date, chart: chart)
