@@ -33,7 +33,6 @@ enum AppRoute: Route {
 
 struct BootView: View {
     @EnvironmentObject private var appState: GlobalState
-    @StateObject private var locationKit: LocationKit = .init()
     @StateObject var router = Router<AppRoute>(root: .main)
 
     var body: some View {
@@ -51,8 +50,8 @@ struct BootView: View {
             default: Text("default \(route.id)")
             }
         }.onTapGesture {
-            let _ = locationKit.requestAuthorization()
-            let _ = locationKit.getCurrentLocation()
+            let _ = appState.locationKit.requestAuthorization()
+            let _ = appState.locationKit.getCurrentLocation()
         }
     }
 }
