@@ -18,6 +18,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/hocgin/SwiftHit", from: "0.0.49"),
         .package(url: "https://github.com/bryan-vh/Voyager", from: "1.3.0"),
+        .package(url: "https://github.com/krzysztofzablocki/Inject", from: "1.5.2"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
