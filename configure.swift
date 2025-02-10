@@ -105,9 +105,29 @@ fileManager.changeCurrentDirectoryPath(fileManager.currentDirectoryPath)
 try! fileManager.createDirectory(atPath: "OUTPUT", withIntermediateDirectories: true, attributes: nil)
 try! fileManager.copyItem(atPath: "xxPROJECTxNAMExx", toPath: "OUTPUT/xxPROJECTxNAMExx")
 
+@discardableResult
+func runShell(_ command: String) -> Int32 {
+    let task = Process()
+    task.launchPath = "/bin/bash"
+    task.arguments = ["-c", command]
+    task.launch()
+    task.waitUntilExit()
+    return task.terminationStatus
+}
+
+let status = runShell("cd OUTPUT/xxPROJECTxNAMExx && xcode-build-server config -workspace *.xcworkspace -scheme App && xcode-build-server config -project App/*.xcodeproj -scheme App")
+if status != 0 {
+    /// 需要 brew install xcode-build-server
+    print("Failed to configure or install xcode-build-server")
+}
+
 // Move into OUTPUT and do variable replacement
 fileManager.changeCurrentDirectoryPath("OUTPUT")
 replaceVariablesInFiles(substitutions: substitutionPairs)
 replaceVariablesInFileNames(substitutions: substitutionPairs)
 
 print("Done, your project is now ready to use in the OUTPUT/ folder")
+
+print("打开 InjectionIII，它会在右上角菜单栏中显示一个小图标，选择项目的目录，再次点击小图标，选择 Prepare Project，为项目中所有的 SwiftUI 文件添加注入代码")
+
+print("Read More. https://blog.imjp.uk/fxxk-xcode")

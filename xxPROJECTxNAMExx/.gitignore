@@ -74,3 +74,4 @@ oclint.html
 derivedData/
 UserInterface.xcuserstate
 *.xcbkptlist
+buildServer.json
