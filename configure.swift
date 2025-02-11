@@ -116,7 +116,7 @@ func runShell(_ command: String) -> Int32 {
     return task.terminationStatus
 }
 
-let status = runShell("cd OUTPUT/xxPROJECTxNAMExx && xcode-build-server config -workspace *.xcworkspace -scheme App && xcode-build-server config -project App/*.xcodeproj -scheme App && xcodebuild -resolvePackageDependencies")
+let status = runShell("cd OUTPUT/xxPROJECTxNAMExx && xcode-build-server config -workspace *.xcworkspace -scheme App && xcodebuild -resolvePackageDependencies")
 if status != 0 {
     /// 需要 brew install xcode-build-server
     print("Failed to configure or install xcode-build-server")
