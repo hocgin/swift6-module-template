@@ -45,16 +45,22 @@ let package = Package(
             dependencies: [
                 .target(name: "SharedAit"),
             ],
-            swiftSettings: [.swiftLanguageMode(.v5)]
+            swiftSettings: [
+                .swiftLanguageMode(.v5),
+            ]
         ),
         .target(
             name: "AppAit",
             dependencies: [
                 .target(name: "SharedAit"),
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "StoreKitHelper", package: "StoreKitHelper"),
                 .product(name: "Voyager", package: "Voyager"),
             ],
-            swiftSettings: [.swiftLanguageMode(.v5)]
+            swiftSettings: [
+                .swiftLanguageMode(.v6),
+                .enableExperimentalFeature("Macros"),
+            ]
         ),
     ]
 )

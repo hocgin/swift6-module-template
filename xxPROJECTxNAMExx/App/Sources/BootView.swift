@@ -5,6 +5,7 @@
 //  Created by __AUTHOR NAME__ on __TODAYS_DATE__.
 //
 
+import ComposableArchitecture
 import CoreData
 import SwiftUI
 import Voyager
@@ -14,18 +15,16 @@ enum AppRoute: Route {
 }
 
 struct BootView: View {
-    @StateObject var router = Router<AppRoute>(root: .main)
+    @Bindable var store: StoreOf<Todos>
+    @EnvironmentObject var router: Router<AppRoute>
 
     var body: some View {
         NavVoyagerView(router: router) { route in
             switch route {
-            case .main: Text("Main View")
+            case .main:
+                MainView(store: store)
             default: Text("default View")
             }
         }
     }
-}
-
-#Preview {
-    BootView()
 }
