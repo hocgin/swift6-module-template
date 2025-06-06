@@ -9,13 +9,11 @@ import Foundation
 import SwiftUI
 
 @Reducer
-struct Todo {
+struct Tpl {
     @ObservableState
     struct State: Equatable, Identifiable {
-        var description = ""
-        public let id: String
-        var isComplete = false
-        var isLoading = false
+        let id: UUID = .init()
+        var isLoading: Bool = false
     }
 
     enum Action: BindableAction, Sendable {
@@ -36,7 +34,6 @@ struct Todo {
                     await send(.loaded(UUID().uuidString))
                 }
             case let .loaded(result):
-                state.description = result
                 state.isLoading = false
                 return .none
             default:
@@ -46,13 +43,13 @@ struct Todo {
     }
 }
 
-struct TodoView: View {
-    @Bindable var store: StoreOf<Todo>
+struct TplView: View {
+    @Bindable var store: StoreOf<Tpl>
+
     var body: some View {
         VStack {
             Text("Todo.\(store.id)")
             Text("\(store.isLoading ? "加载中" : "加载完成")")
-            Text("description.\(store.description)")
         }
         .onAppear {
             store.send(.load)
