@@ -9,13 +9,21 @@ import SwiftUI
 
 struct MainView: View {
     @Bindable var store: StoreOf<Todos>
+    let itemWidth: Double = UIScreen.main.bounds.width
     var body: some View {
-        List {
-            ForEach(store.scope(state: \.todos, action: \.todos)) { store in
-                TodoView(store: store)
+        ScrollView(.horizontal, showsIndicators: false) {
+            LazyHStack(spacing: .zero) {
+                ForEach(store.scope(state: \.todos, action: \.todos)) { store in
+                    TodoView(store: store)
+                        .frame(width: itemWidth)
+                        .id(store.id)
+                }
             }
-            .onDelete { store.send(.delete($0)) }
-            .onMove { store.send(.move($0, $1)) }
+            .scrollTargetLayout()
+        }
+        .scrollTargetBehavior(.paging)
+        .onAppear {
+            store.send(.load)
         }
     }
 }

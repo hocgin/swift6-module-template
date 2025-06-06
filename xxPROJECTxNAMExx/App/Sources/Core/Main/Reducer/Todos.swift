@@ -22,6 +22,8 @@ struct Todos {
         case move(IndexSet, Int)
         case sortCompletedTodos
         case todos(IdentifiedActionOf<Todo>)
+        case appendAll([Todo.State])
+        case load
     }
 
     @Dependency(\.continuousClock) var clock
@@ -32,9 +34,19 @@ struct Todos {
         BindingReducer()
         Reduce { state, action in
             switch action {
-//            case .addTodoButtonTapped:
-//                let _ = debugPrint("state = \(state)")
-//                return .none
+            case .load:
+                debugPrint("加载所有数据..")
+                return .run { send in
+                    let result: [Todo.State] = (try? await Task {
+                        try await Task.sleep(nanoseconds: 600000)
+                        return [Todo.State(id: UUID())]
+                    }.value) ?? []
+                    await send(.appendAll(result))
+                }
+
+            case let .appendAll(arr):
+                state.todos.append(contentsOf: arr)
+                return .none
 
             case let .delete(indexSet):
                 for index in indexSet {
