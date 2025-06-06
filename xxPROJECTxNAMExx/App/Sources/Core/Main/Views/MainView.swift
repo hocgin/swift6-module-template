@@ -35,16 +35,12 @@ struct MainView: View {
         .overlay(alignment: .top) {
             Group {
                 if let selectedID = store.selectedID {
-                    let store = store.scope(
+                    HeaderView(store: store.scope(
                         state: \.todos[id: selectedID],
                         action: \.todo
-                    )
-                    WithViewStore(store, observe: { $0 }) { store in
-                        let description = store.optional?.description
-                        return Text("\(description)")
-                    }
+                    ))
                 } else {
-                    Text("NotTodo")
+                    EmptyView()
                 }
             }
         }
@@ -53,13 +49,16 @@ struct MainView: View {
         }
     }
 
-//    struct SelectedView: View {
-//        @Bindable var store: StoreOf<Todo.State.ID>
-//
-//        var body: some View {
-//            Text("\(store.)")
-//        }
-//    }
+    struct HeaderView: View {
+        @Bindable var store: Store<Todo.State?, Todos.Action>
+
+        var body: some View {
+            WithViewStore(store, observe: { $0 }) { store in
+                let description = store.optional?.description
+                return Text("\(description)")
+            }
+        }
+    }
 }
 
 extension IdentifiedArrayOf<Todo.State> {
