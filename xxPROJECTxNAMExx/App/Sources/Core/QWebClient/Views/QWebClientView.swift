@@ -22,7 +22,9 @@ struct QWebClient {
         case loaded(String)
     }
 
-    var body: some Reducer<State, Action> {
+    @Dependency(\.webClient) var weatherClient
+
+    var body: some ReducerOf<Self> {
         BindingReducer()
         Reduce { state, action in
             switch action {
@@ -44,10 +46,6 @@ struct QWebClient {
     }
 }
 
-// extension WebClient.State {
-//    static let mock: Self = .init()
-// }
-
 struct QWebClientView: View {
     @Bindable var store: StoreOf<QWebClient>
 
@@ -60,4 +58,16 @@ struct QWebClientView: View {
             store.send(.load)
         }
     }
+}
+
+/// =====
+
+extension QWebClient.State {
+    static let mock: Self = .init()
+}
+
+#Preview {
+    QWebClientView(
+        store: Store(initialState: .mock) { QWebClient() }
+    )
 }

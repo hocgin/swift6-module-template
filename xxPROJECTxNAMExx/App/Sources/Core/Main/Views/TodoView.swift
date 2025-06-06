@@ -9,11 +9,13 @@ import Foundation
 import SwiftUI
 
 @Reducer
-struct Tpl {
+struct Todo {
     @ObservableState
     struct State: Equatable, Identifiable {
-        let id: UUID = .init()
-        var isLoading: Bool = false
+        var description = ""
+        public let id: String
+        var isComplete = false
+        var isLoading = false
     }
 
     enum Action: BindableAction, Sendable {
@@ -34,7 +36,7 @@ struct Tpl {
                     await send(.loaded(UUID().uuidString))
                 }
             case let .loaded(result):
-                debugPrint("加载完成..\(result)")
+                state.description = result
                 state.isLoading = false
                 return .none
             default:
@@ -44,28 +46,16 @@ struct Tpl {
     }
 }
 
-struct TplView: View {
-    @Bindable var store: StoreOf<Tpl>
-
+struct TodoView: View {
+    @Bindable var store: StoreOf<Todo>
     var body: some View {
         VStack {
             Text("Todo.\(store.id)")
             Text("\(store.isLoading ? "加载中" : "加载完成")")
+            Text("description.\(store.description)")
         }
         .onAppear {
             store.send(.load)
         }
     }
-}
-
-/// =====
-
-extension Tpl.State {
-    static let mock: Self = .init()
-}
-
-#Preview {
-    TplView(
-        store: Store(initialState: .mock) { Tpl() }
-    )
 }

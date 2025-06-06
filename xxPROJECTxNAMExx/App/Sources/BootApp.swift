@@ -12,10 +12,7 @@ import Voyager
 @main
 struct BootApp: App {
     @StateObject var router = Router<AppRoute>(root: .main)
-    static let store = Store(initialState: Todos.State()) {
-        Todos()
-//            ._printChanges()
-    }
+    static let store = Store(initialState: Todos.State()) { Todos() }
 
     var body: some Scene {
         WindowGroup {
