@@ -1,40 +1,22 @@
 {
-  "originHash" : "19d09664cd6c21a7c0506cebea8c1fbb59447d1391bc996ad56528aa501fb0d5",
+  "originHash" : "43fd2938d416dd38933954c220e79513dc565a908ddc755a759a6e44de575f5c",
   "pins" : [
     {
-      "identity" : "acarousel",
+      "identity" : "cache",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/JWAutumn/ACarousel",
+      "location" : "https://github.com/hyperoslo/Cache",
       "state" : {
-        "revision" : "8a322513580f21288fd87eb3a1341c247b3e2a76",
-        "version" : "0.2.0"
+        "revision" : "24e47109e31b2031cb26e25cc1b81b607496066c",
+        "version" : "7.4.0"
       }
     },
     {
-      "identity" : "alamofire",
+      "identity" : "cocoalumberjack",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Alamofire/Alamofire",
+      "location" : "https://github.com/CocoaLumberjack/CocoaLumberjack.git",
       "state" : {
-        "revision" : "513364f870f6bfc468f9d2ff0a95caccc10044c5",
-        "version" : "5.10.2"
-      }
-    },
-    {
-      "identity" : "asn1swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/tikhop/ASN1Swift",
-      "state" : {
-        "revision" : "403cd95194e6a962e16db7c0d373d89fce83e0f7",
-        "version" : "1.2.7"
-      }
-    },
-    {
-      "identity" : "inject",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/krzysztofzablocki/Inject.git",
-      "state" : {
-        "revision" : "728c56639ecb3df441d51d5bc6747329afabcfc9",
-        "version" : "1.5.2"
+        "revision" : "4b8714a7fb84d42393314ce897127b3939885ec3",
+        "version" : "3.8.5"
       }
     },
     {
@@ -47,30 +29,29 @@
       }
     },
     {
-      "identity" : "sheetkit",
+      "identity" : "memoz",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/fatbobman/SheetKit",
+      "location" : "https://github.com/marcprux/MemoZ.git",
       "state" : {
-        "revision" : "daadabc0f142e2e96a210d19c436b8e2c4bdeb46",
-        "version" : "0.1.0"
+        "revision" : "473ee3559b4446fb81c7197fb01293373ddf6b4a",
+        "version" : "1.5.2"
       }
     },
     {
-      "identity" : "smartcodable",
+      "identity" : "rive-ios",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/hocgin/SmartCodable",
+      "location" : "https://github.com/rive-app/rive-ios",
       "state" : {
-        "revision" : "541746db73b5381ac7d533d7b13b261154f1a20a",
-        "version" : "3.4.0"
+        "revision" : "4f642ff5ceba3a6629ecb4d94fd3616886f583f0",
+        "version" : "6.9.4"
       }
     },
     {
-      "identity" : "snapkit",
+      "identity" : "storekithelper",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SnapKit/SnapKit",
+      "location" : "git@github.com:hocgin/StoreKitHelper.git",
       "state" : {
-        "revision" : "2842e6e84e82eb9a8dac0100ca90d9444b0307f4",
-        "version" : "5.7.1"
+        "revision" : "6db54ccae7a25538452e58e80c6c854a5f9c5935"
       }
     },
     {
@@ -83,12 +64,20 @@
       }
     },
     {
+      "identity" : "swifterswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwifterSwift/SwifterSwift.git",
+      "state" : {
+        "revision" : "933f27d8e7fa0bf8200a5d6235e0de383b801126",
+        "version" : "5.3.0"
+      }
+    },
+    {
       "identity" : "swifthit",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/hocgin/SwiftHit",
+      "location" : "git@github.com:hocgin/SwiftHit.git",
       "state" : {
-        "revision" : "20325f53bbb895fc7855c4e5d5b33bb2393b3d12",
-        "version" : "0.0.49"
+        "revision" : "1ca5df38ad1425a065961352c2e83cee069356b4"
       }
     },
     {
@@ -110,30 +99,11 @@
       }
     },
     {
-      "identity" : "tpinappreceipt",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/tikhop/TPInAppReceipt",
-      "state" : {
-        "revision" : "e135055eaeba5a52874b7f9b290f42890cbe981f",
-        "version" : "3.4.1"
-      }
-    },
-    {
       "identity" : "voyager",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/bryan-vh/Voyager",
+      "location" : "git@github.com:hocgin/Voyager.git",
       "state" : {
-        "revision" : "bdc75946f21efb27bf068012ef395c7f2c305da9",
-        "version" : "1.3.0"
-      }
-    },
-    {
-      "identity" : "zipfoundation",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/weichsel/ZIPFoundation",
-      "state" : {
-        "revision" : "02b6abe5f6eef7e3cbd5f247c5cc24e246efcfe0",
-        "version" : "0.9.19"
+        "revision" : "aa1d0abfc6dd769f0dd6a716f355cf09cd30b437"
       }
     }
   ],

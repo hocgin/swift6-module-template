@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D99B7A212CA4E49A0010B87C /* xxPROJECTxNAMExx in Frameworks */ = {isa = PBXBuildFile; productRef = D99B7A202CA4E49A0010B87C /* xxPROJECTxNAMExx */; };
+		574AA5BA2DF2D7CD009ABDC5 /* AppAit in Frameworks */ = {isa = PBXBuildFile; productRef = 574AA5B92DF2D7CD009ABDC5 /* AppAit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D99B7A212CA4E49A0010B87C /* xxPROJECTxNAMExx in Frameworks */,
+				574AA5BA2DF2D7CD009ABDC5 /* AppAit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,12 +77,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		574AA5B82DF2D7CD009ABDC5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D99B79DA2CA4E2B30010B87C = {
 			isa = PBXGroup;
 			children = (
 				D99B79E52CA4E2B30010B87C /* Sources */,
 				D99B79F62CA4E2B50010B87C /* AppTests */,
 				D99B7A002CA4E2B50010B87C /* AppUITests */,
+				574AA5B82DF2D7CD009ABDC5 /* Frameworks */,
 				D99B79E42CA4E2B30010B87C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -117,7 +125,7 @@
 			);
 			name = App;
 			packageProductDependencies = (
-				D99B7A202CA4E49A0010B87C /* xxPROJECTxNAMExx */,
+				574AA5B92DF2D7CD009ABDC5 /* AppAit */,
 			);
 			productName = Example;
 			productReference = D99B79E32CA4E2B30010B87C /* App.app */;
@@ -578,9 +586,9 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		D99B7A202CA4E49A0010B87C /* xxPROJECTxNAMExx */ = {
+		574AA5B92DF2D7CD009ABDC5 /* AppAit */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = xxPROJECTxNAMExx;
+			productName = AppAit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
