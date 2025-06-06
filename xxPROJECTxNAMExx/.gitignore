@@ -75,3 +75,4 @@ derivedData/
 UserInterface.xcuserstate
 *.xcbkptlist
 buildServer.json
+OUTPUT/
