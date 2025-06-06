@@ -25,6 +25,7 @@ let package = Package(
         .package(url: "git@github.com:hocgin/StoreKitHelper.git", revision: "6db54ccae7a25538452e58e80c6c854a5f9c5935"),
         .package(url: "git@github.com:hocgin/Voyager.git", revision: "aa1d0abfc6dd769f0dd6a716f355cf09cd30b437"),
         .package(url: "https://github.com/marcprux/MemoZ.git", .upToNextMajor(from: "1.5.2")),
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", .upToNextMajor(from: "1.20.2")),
     ],
     targets: [
         .target(
