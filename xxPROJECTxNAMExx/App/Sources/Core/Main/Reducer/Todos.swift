@@ -12,9 +12,10 @@ struct Todos {
     @ObservableState
     struct State: Equatable {
         var todos: IdentifiedArrayOf<Todo.State> = []
+        var selectedID: String?
     }
 
-    enum Action: BindableAction, Sendable {
+    indirect enum Action: BindableAction, Sendable {
         case addTodoButtonTapped
         case binding(BindingAction<State>)
         case clearCompletedButtonTapped
@@ -24,6 +25,7 @@ struct Todos {
         case todos(IdentifiedActionOf<Todo>)
         case appendAll([Todo.State])
         case load
+        case todo(Todos.Action)
     }
 
     @Dependency(\.continuousClock) var clock
@@ -36,10 +38,13 @@ struct Todos {
             switch action {
             case .load:
                 debugPrint("加载所有数据..")
+                if let id = state.todos.ids.first {
+                    state.selectedID = id
+                }
                 return .run { send in
                     let result: [Todo.State] = (try? await Task {
                         try await Task.sleep(nanoseconds: 600000)
-                        return [Todo.State(id: UUID())]
+                        return [Todo.State(id: UUID().uuidString)]
                     }.value) ?? []
                     await send(.appendAll(result))
                 }
@@ -80,11 +85,12 @@ struct Todos {
                 return .none
 
             default:
-                let _ = debugPrint("default = \(state)")
+                let _ = debugPrint("default = ")
                 return .none
             }
         }
         .forEach(\.todos, action: \.todos) {
+            let _ = debugPrint("Todos.todos")
             Todo()
         }
     }

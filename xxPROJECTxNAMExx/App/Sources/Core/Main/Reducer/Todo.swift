@@ -13,7 +13,7 @@ struct Todo {
     @ObservableState
     struct State: Equatable, Identifiable {
         var description = ""
-        let id: UUID
+        public let id: String
         var isComplete = false
         var isLoading = false
     }
@@ -29,10 +29,10 @@ struct Todo {
         Reduce { state, action in
             switch action {
             case .load:
-                debugPrint("加载项 新数据..\(state)")
+                debugPrint("加载项 新数据..")
                 state.isLoading = true
                 return .run { send in
-                    try? await Task.sleep(nanoseconds: 60_000_000_000)
+                    try? await Task.sleep(nanoseconds: 6_000_000_000)
                     await send(.loaded(UUID().uuidString))
                 }
             case let .loaded(result):

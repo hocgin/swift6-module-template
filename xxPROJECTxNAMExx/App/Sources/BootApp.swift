@@ -13,7 +13,8 @@ import Voyager
 struct BootApp: App {
     @StateObject var router = Router<AppRoute>(root: .main)
     static let store = Store(initialState: Todos.State()) {
-        Todos()._printChanges()
+        Todos()
+//            ._printChanges()
     }
 
     var body: some Scene {
