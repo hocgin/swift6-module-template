@@ -7,19 +7,27 @@
 import ComposableArchitecture
 import Foundation
 import SwiftUI
+import Tagged
 
 @Reducer
-struct List {
+struct PList {
     @ObservableState
-    struct State: Equatable, Identifiable {
-        let id: UUID = .init()
+    struct State: Equatable {
         var isLoading: Bool = false
+        var list: IdentifiedArrayOf<ItemState> = []
+
+//        @ObservableState
+        struct ItemState: Equatable, Identifiable {
+            let id: Tagged<Self, UUID>
+            var title: String = ""
+        }
     }
 
-    enum Action: BindableAction, Sendable {
+    indirect enum Action: BindableAction, Sendable {
         case binding(BindingAction<State>)
         case load
         case loaded(String)
+        case list(PList.Action)
     }
 
     var body: some ReducerOf<Self> {
@@ -27,45 +35,53 @@ struct List {
         Reduce { state, action in
             switch action {
             case .load:
-                debugPrint("加载项 新数据..")
+                debugPrint("PLIST 加载项 新数据..")
                 state.isLoading = true
                 return .run { send in
-                    try? await Task.sleep(nanoseconds: 6_000_000_000)
                     await send(.loaded(UUID().uuidString))
                 }
             case let .loaded(result):
-                debugPrint("加载完成..\(result)")
+                debugPrint("PLIST 加载完成..\(result)  \(state.list.count)")
+                state.list.append(.init(id: .init(), title: result))
                 state.isLoading = false
                 return .none
             default:
                 return .none
             }
         }
+//        .forEach(\.list, action: \.list) {
+//
+//        }
     }
 }
 
-struct TplView: View {
-    @Bindable var store: StoreOf<Tpl>
+struct PListView: View {
+    @Bindable var store: StoreOf<PList>
 
     var body: some View {
-        VStack {
-            Text("Todo.\(store.id)")
-            Text("\(store.isLoading ? "加载中" : "加载完成")")
+        List {
+            ForEach(store.list) { item in
+                NavigationLink(state: PageRoute.Path.State.todo(Todo.State(id: item.id.uuidString))) {
+                    Text("Title = \(item.title)")
+                }
+                .listRowBackground(Color.gray)
+            }
         }
+        .navigationTitle("UseTitle")
         .onAppear {
             store.send(.load)
         }
     }
 }
 
-/// =====
+/// =======================================================
 
-extension Tpl.State {
+extension PList.State {
     static let mock: Self = .init()
 }
 
 #Preview {
-    TplView(
-        store: Store(initialState: .mock) { Tpl() }
+    PListView(
+        store: Store(initialState: .mock) { PList() }
     )
 }

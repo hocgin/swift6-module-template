@@ -19,10 +19,7 @@ struct MainView: View {
                 .foregroundStyle(.red)
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: .zero) {
-                    ForEach(store.scope(
-                        state: \.todos,
-                        action: \.todos
-                    ), id: \.state.id) { store in
+                    ForEach(store.scope(state: \.todos, action: \.todos), id: \.state.id) { store in
                         TodoView(store: store)
                             .frame(width: itemWidth)
                     }

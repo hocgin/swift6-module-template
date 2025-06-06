@@ -9,20 +9,33 @@ import Foundation
 import SwiftUI
 
 @Reducer
-struct Tpl {
+struct PageRoute {
+    @Reducer
+    enum Path {
+        case todo(Todo)
+        case qwebClient(QWebClient)
+    }
+
     @ObservableState
-    struct State: Equatable, Identifiable {
-        let id: UUID = .init()
+    struct State: Equatable {
+        var path = StackState<Path.State>()
         var isLoading: Bool = false
+        var children = PList.State()
     }
 
     enum Action: BindableAction, Sendable {
         case binding(BindingAction<State>)
+        case path(StackActionOf<Path>)
         case load
         case loaded(String)
+        case children(PList.Action)
     }
 
     var body: some ReducerOf<Self> {
+        /// 关乎是否触发子视图变动
+        Scope(state: \.children, action: \.children) {
+            PList()
+        }
         BindingReducer()
         Reduce { state, action in
             switch action {
@@ -37,20 +50,31 @@ struct Tpl {
                 debugPrint("加载完成..\(result)")
                 state.isLoading = false
                 return .none
+            case .path:
+                return .none
             default:
                 return .none
             }
         }
+        .forEach(\.path, action: \.path)
     }
 }
 
-struct TplView: View {
-    @Bindable var store: StoreOf<Tpl>
+extension PageRoute.Path.State: Equatable {}
+
+struct PageRouteView: View {
+    @Bindable var store: StoreOf<PageRoute>
 
     var body: some View {
-        VStack {
-            Text("Todo.\(store.id)")
-            Text("\(store.isLoading ? "加载中" : "加载完成")")
+        NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+            PListView(store: store.scope(state: \.children, action: \.children))
+        } destination: { store in
+            switch store.case {
+            case let .todo(store):
+                TodoView(store: store)
+            case let .qwebClient(store):
+                QWebClientView(store: store)
+            }
         }
         .onAppear {
             store.send(.load)
@@ -58,14 +82,14 @@ struct TplView: View {
     }
 }
 
-/// =====
+/// =======================================================
 
-extension Tpl.State {
+extension PageRoute.State {
     static let mock: Self = .init()
 }
 
 #Preview {
-    TplView(
-        store: Store(initialState: .mock) { Tpl() }
+    PageRouteView(
+        store: Store(initialState: .mock) { PageRoute() }
     )
 }

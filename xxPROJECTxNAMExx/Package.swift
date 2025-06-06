@@ -24,6 +24,7 @@ let package = Package(
         .package(url: "git@github.com:hocgin/SwiftHit.git", revision: "1ca5df38ad1425a065961352c2e83cee069356b4"),
         .package(url: "git@github.com:hocgin/StoreKitHelper.git", revision: "6db54ccae7a25538452e58e80c6c854a5f9c5935"),
         .package(url: "git@github.com:hocgin/Voyager.git", revision: "aa1d0abfc6dd769f0dd6a716f355cf09cd30b437"),
+        .package(url: "https://github.com/pointfreeco/swift-tagged.git", .upToNextMajor(from: "0.10.0")),
         .package(url: "https://github.com/marcprux/MemoZ.git", .upToNextMajor(from: "1.5.2")),
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", .upToNextMajor(from: "1.20.2")),
     ],
@@ -37,8 +38,12 @@ let package = Package(
                 .product(name: "RequestHit", package: "SwiftHit"),
                 /// MemoZ
                 .product(name: "MemoZ", package: "MemoZ"),
+                /// Tagged
+                .product(name: "Tagged", package: "swift-tagged"),
             ],
-            swiftSettings: [.swiftLanguageMode(.v5)]
+            swiftSettings: [
+                .swiftLanguageMode(.v5)
+            ]
         ),
         .target(
             name: "WidgetAit",
