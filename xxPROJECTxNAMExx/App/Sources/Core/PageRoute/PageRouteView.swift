@@ -11,21 +11,21 @@ import SwiftUI
 @Reducer
 struct PageRoute {
     @Reducer
-    enum Path {
+    enum Destination {
         case todo(Todo)
         case qwebClient(QWebClient)
     }
 
     @ObservableState
     struct State: Equatable {
-        var path = StackState<Path.State>()
+        @Presents var destination: Destination.State?
         var isLoading: Bool = false
         var children = PList.State()
     }
 
     enum Action: BindableAction, Sendable {
         case binding(BindingAction<State>)
-        case path(StackActionOf<Path>)
+        case destination(PresentationAction<Destination.Action>)
         case load
         case loaded(String)
         case children(PList.Action)
@@ -50,36 +50,32 @@ struct PageRoute {
                 debugPrint("加载完成..\(result)")
                 state.isLoading = false
                 return .none
-            case .path:
+            case .destination:
                 return .none
             default:
                 return .none
             }
         }
-        .forEach(\.path, action: \.path)
+        .ifLet(\.$destination, action: \.destination)
     }
 }
 
-extension PageRoute.Path.State: Equatable {}
+extension PageRoute.Destination.State: Equatable {}
 
 struct PageRouteView: View {
     @Bindable var store: StoreOf<PageRoute>
 
     var body: some View {
-        let path = $store.scope(state: \.path, action: \.path)
-        NavigationStack(path: path) {
-            PListView(store: store.scope(state: \.children, action: \.children))
-        } destination: { store in
-            switch store.case {
-            case let .todo(store):
-                TodoView(store: store)
-            case let .qwebClient(store):
+        PListView(store: store.scope(state: \.children, action: \.children))
+            .navigationDestination(item: $store.scope(state: \.destination?.qwebClient, action: \.destination.qwebClient)) { store in
                 QWebClientView(store: store)
             }
-        }
-        .onAppear {
-            store.send(.load)
-        }
+            .navigationDestination(item: $store.scope(state: \.destination?.todo, action: \.destination.todo)) { store in
+                TodoView(store: store)
+            }
+            .onAppear {
+                store.send(.load)
+            }
     }
 }
 

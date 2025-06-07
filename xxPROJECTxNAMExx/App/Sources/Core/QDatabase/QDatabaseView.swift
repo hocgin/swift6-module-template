@@ -10,6 +10,8 @@ import SwiftUI
 
 @Reducer
 struct QDatabase {
+    @Dependency(\.defaultDatabase) var database
+
     @ObservableState
     struct State: Equatable {
         var items: [Item] = []
@@ -22,8 +24,6 @@ struct QDatabase {
         case move(IndexSet, Int)
         case items([Item])
     }
-
-    @ObservationIgnored @Dependency(\.defaultDatabase) var database
 
     var body: some ReducerOf<Self> {
         Reduce { state, action in

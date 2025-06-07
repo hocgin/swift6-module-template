@@ -10,6 +10,8 @@ import SwiftUI
 
 @Reducer
 struct QWebClient {
+    @Dependency(\.webClient) var webClient
+
     @ObservableState
     struct State: Equatable, Identifiable {
         let id: UUID = .init()
@@ -22,8 +24,6 @@ struct QWebClient {
         case load
         case loaded(String)
     }
-
-    @Dependency(\.webClient) var webClient
 
     var body: some ReducerOf<Self> {
         BindingReducer()

@@ -10,6 +10,9 @@ import SwiftUI
 
 @Reducer
 struct Todos {
+    @Dependency(\.continuousClock) var clock
+    @Dependency(\.uuid) var uuid
+
     @ObservableState
     struct State: Equatable {
         var todos: IdentifiedArrayOf<Todo.State> = []
@@ -29,8 +32,6 @@ struct Todos {
         case todo(Todos.Action)
     }
 
-    @Dependency(\.continuousClock) var clock
-    @Dependency(\.uuid) var uuid
     private enum CancelID { case todoCompletion }
 
     var body: some ReducerOf<Self> {

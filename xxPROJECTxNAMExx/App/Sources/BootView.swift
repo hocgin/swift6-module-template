@@ -67,6 +67,8 @@ struct BootView: View {
             MainView()
         } destination: { store in
             switch store.case {
+            case .main:
+                MainView()
             case let .todos(store):
                 TodosView(store: store)
             case let .qwebclient(store):
@@ -75,8 +77,6 @@ struct BootView: View {
                 QDatabaseView(store: store)
             case let .pageroute(store):
                 PageRouteView(store: store)
-            case .main:
-                MainView()
             case let .qlocation(store):
                 QLocationView(store: store)
             case let .tpl(store):
@@ -85,5 +85,6 @@ struct BootView: View {
                 ErrorView()
             }
         }
+//        .environment(\.path, store.path)
     }
 }
