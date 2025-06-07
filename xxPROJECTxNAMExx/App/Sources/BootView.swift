@@ -24,8 +24,8 @@ enum AppRoute {
 struct Boot {
     @ObservableState
     struct State: Equatable {
-        var todos: Todos.State = .init()
         @Shared(.route) var path
+        var todos: Todos.State = .init()
     }
 
     enum Action: BindableAction, Sendable {
