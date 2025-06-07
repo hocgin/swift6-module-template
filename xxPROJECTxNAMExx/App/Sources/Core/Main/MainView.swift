@@ -23,7 +23,7 @@ struct MainView: View {
             NavigationLink(state: Boot.Path.State.tpl(.init())) {
                 Text("tpl")
             }
-            NavigationLink(state: Boot.Path.State.qdatabase) {
+            NavigationLink(state: Boot.Path.State.qdatabase(.init())) {
                 Text("qdatabase")
             }
             NavigationLink(state: Boot.Path.State.pageroute(.init())) {

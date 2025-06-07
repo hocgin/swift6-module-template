@@ -14,6 +14,7 @@ struct Item: Hashable, Identifiable {
     var title = ""
     var isInStock = true
     var notes = ""
+    var position = 0
 }
 
 ///
@@ -54,7 +55,8 @@ func appDatabase() throws -> any DatabaseWriter {
               "id" TEXT PRIMARY KEY NOT NULL ON CONFLICT REPLACE DEFAULT (uuid()),
               "title" TEXT NOT NULL,
               "isInStock" INTEGER NOT NULL DEFAULT 0,
-              "notes" TEXT NOT NULL DEFAULT "\(raw: UUID().uuidString)"
+              "notes" TEXT NOT NULL DEFAULT "\(raw: UUID().uuidString)",
+              "position" INTEGER NOT NULL DEFAULT 0
             )
             """
         )
