@@ -7,7 +7,7 @@
 import ComposableArchitecture
 
 @DependencyClient
-struct WebClient {
+struct WebClient: Sendable {
     var forecast: @Sendable (_ location: String) async throws -> String
     var search: @Sendable (_ query: String) async throws -> String
 }
