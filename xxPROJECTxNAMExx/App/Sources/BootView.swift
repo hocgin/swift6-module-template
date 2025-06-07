@@ -21,7 +21,7 @@ struct Boot {
         case main
         case todos(Todos)
         case pageroute(PageRoute)
-        case qdatabase
+        case qdatabase(QDatabase)
         case qwebclient(QWebClient)
         case tpl(Tpl)
     }
@@ -70,8 +70,8 @@ struct BootView: View {
                 TodosView(store: store)
             case let .qwebclient(store):
                 QWebClientView(store: store)
-            case .qdatabase:
-                QDatabaseView()
+            case let .qdatabase(store):
+                QDatabaseView(store: store)
             case let .pageroute(store):
                 PageRouteView(store: store)
             case .main:

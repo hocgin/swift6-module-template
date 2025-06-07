@@ -8,7 +8,7 @@ import Foundation
 import GRDB
 import SharingGRDB
 
-@Table
+@Table("item")
 struct Item: Hashable, Identifiable {
     let id: UUID
     var title = ""
@@ -77,9 +77,9 @@ func appDatabase() throws -> any DatabaseWriter {
     extension Database {
         func seedSampleData() throws {
             try seed {
-                Item(id: UUID(1), title: "title-1", isInStock: true, notes: "Design")
-                Item(id: UUID(2), title: "title-2", isInStock: true, notes: "Engineering")
-                Item(id: UUID(3), title: "title-3", isInStock: true, notes: "Product")
+                Item(id: UUID(), title: "title-1", isInStock: true, notes: "Design")
+                Item(id: UUID(), title: "title-2", isInStock: true, notes: "Engineering")
+                Item(id: UUID(), title: "title-3", isInStock: true, notes: "Product")
             }
         }
     }
