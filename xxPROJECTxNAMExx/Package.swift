@@ -8,6 +8,7 @@ let package = Package(
     defaultLocalization: "zh",
     platforms: [
         .iOS(.v17),
+//        .macOS(.v15),
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
@@ -24,11 +25,17 @@ let package = Package(
         .package(url: "git@github.com:hocgin/SwiftHit.git", revision: "1ca5df38ad1425a065961352c2e83cee069356b4"),
         .package(url: "git@github.com:hocgin/StoreKitHelper.git", revision: "6db54ccae7a25538452e58e80c6c854a5f9c5935"),
         .package(url: "git@github.com:hocgin/Voyager.git", revision: "aa1d0abfc6dd769f0dd6a716f355cf09cd30b437"),
-        .package(url: "https://github.com/pointfreeco/swift-tagged.git", .upToNextMajor(from: "0.10.0")),
         .package(url: "https://github.com/marcprux/MemoZ.git", .upToNextMajor(from: "1.5.2")),
+        /// TCA
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", .upToNextMajor(from: "1.20.2")),
+        .package(url: "https://github.com/pointfreeco/sharing-grdb.git", .upToNextMajor(from: "0.4.1")),
+        .package(url: "https://github.com/pointfreeco/swift-tagged.git", .upToNextMajor(from: "0.10.0")),
     ],
     targets: [
+        .target(
+            name: "SharedModelAit",
+            dependencies: []
+        ),
         .target(
             name: "SharedAit",
             dependencies: [
@@ -42,25 +49,27 @@ let package = Package(
                 .product(name: "Tagged", package: "swift-tagged"),
             ],
             swiftSettings: [
-                .swiftLanguageMode(.v5)
+                .swiftLanguageMode(.v6),
             ]
         ),
+        /// Platform
         .target(
             name: "WidgetAit",
             dependencies: [
                 .target(name: "SharedAit"),
             ],
             swiftSettings: [
-                .swiftLanguageMode(.v5),
+                .swiftLanguageMode(.v6),
             ]
         ),
         .target(
             name: "AppAit",
             dependencies: [
                 .target(name: "SharedAit"),
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "StoreKitHelper", package: "StoreKitHelper"),
                 .product(name: "Voyager", package: "Voyager"),
+                .product(name: "SharingGRDB", package: "sharing-grdb"),
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ],
             swiftSettings: [
                 .swiftLanguageMode(.v6),

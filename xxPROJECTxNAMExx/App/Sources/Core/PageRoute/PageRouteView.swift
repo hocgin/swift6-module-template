@@ -66,7 +66,8 @@ struct PageRouteView: View {
     @Bindable var store: StoreOf<PageRoute>
 
     var body: some View {
-        NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+        let path = $store.scope(state: \.path, action: \.path)
+        NavigationStack(path: path) {
             PListView(store: store.scope(state: \.children, action: \.children))
         } destination: { store in
             switch store.case {

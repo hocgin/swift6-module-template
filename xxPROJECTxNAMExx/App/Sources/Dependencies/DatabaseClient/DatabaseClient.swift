@@ -5,3 +5,5 @@
 //  Created by hocgin on 2025/6/7.
 //
 
+struct DatabaseClient: Sendable {}
+

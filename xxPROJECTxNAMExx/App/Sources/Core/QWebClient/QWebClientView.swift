@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 @Reducer
-struct Tpl {
+struct QWebClient {
     @ObservableState
     struct State: Equatable, Identifiable {
         let id: UUID = .init()
@@ -18,15 +18,17 @@ struct Tpl {
 
     enum Action: BindableAction, Sendable {
         case binding(BindingAction<State>)
-        case onAppear
+        case load
         case loaded(String)
     }
+
+    @Dependency(\.webClient) var weatherClient
 
     var body: some ReducerOf<Self> {
         BindingReducer()
         Reduce { state, action in
             switch action {
-            case .onAppear:
+            case .load:
                 debugPrint("加载项 新数据..")
                 state.isLoading = true
                 return .run { send in
@@ -44,8 +46,8 @@ struct Tpl {
     }
 }
 
-struct TplView: View {
-    @Bindable var store: StoreOf<Tpl>
+struct QWebClientView: View {
+    @Bindable var store: StoreOf<QWebClient>
 
     var body: some View {
         VStack {
@@ -53,19 +55,19 @@ struct TplView: View {
             Text("\(store.isLoading ? "加载中" : "加载完成")")
         }
         .onAppear {
-            store.send(.onAppear)
+            store.send(.load)
         }
     }
 }
 
-/// =======================================================
+/// =====
 
-extension Tpl.State {
+extension QWebClient.State {
     static let mock: Self = .init()
 }
 
 #Preview {
-    TplView(
-        store: Store(initialState: .mock) { Tpl() }
+    QWebClientView(
+        store: Store(initialState: .mock) { QWebClient() }
     )
 }

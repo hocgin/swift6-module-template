@@ -16,7 +16,7 @@ struct Item: Hashable, Identifiable {
     var notes = ""
 }
 
-/// ================================================================================================
+///
 func appDatabase() throws -> any DatabaseWriter {
     @Dependency(\.context) var context
     let database: any DatabaseWriter
@@ -54,7 +54,7 @@ func appDatabase() throws -> any DatabaseWriter {
               "id" TEXT PRIMARY KEY NOT NULL ON CONFLICT REPLACE DEFAULT (uuid()),
               "title" TEXT NOT NULL,
               "isInStock" INTEGER NOT NULL DEFAULT 0,
-              "notes" TEXT NOT NULL DEFAULT \(raw: UUID().uuidString)
+              "notes" TEXT NOT NULL DEFAULT "\(raw: UUID().uuidString)"
             )
             """
         )

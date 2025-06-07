@@ -14,16 +14,70 @@ enum AppRoute: Route {
     case main
 }
 
+@Reducer
+struct Boot {
+    @Reducer
+    enum Path {
+        case main
+        case todos(Todos)
+        case pageroute(PageRoute)
+        case qdatabase
+        case qwebclient(QWebClient)
+        case tpl
+    }
+
+    @ObservableState
+    struct State: Equatable {
+        var todos: Todos.State = .init()
+        var path = StackState<Path.State>()
+    }
+
+    enum Action: BindableAction, Sendable {
+        case binding(BindingAction<State>)
+        case path(StackActionOf<Path>)
+        case todos(Todos.Action)
+        case skip
+    }
+
+    var body: some ReducerOf<Self> {
+//        Scope(state: \.todos, action: \.todos) {
+//            Todos()
+//        }
+        BindingReducer()
+        Reduce { state, action in
+            switch action {
+            default:
+                _ = state
+                return .none
+            }
+        }
+        .forEach(\.path, action: \.path)
+    }
+}
+
+extension Boot.Path.State: Equatable {}
+
 struct BootView: View {
-    @Bindable var store: StoreOf<Todos>
-    @EnvironmentObject var router: Router<AppRoute>
+    @Bindable var store: StoreOf<Boot>
 
     var body: some View {
-        NavVoyagerView(router: router) { route in
-            switch route {
+        let path = $store.scope(state: \.path, action: \.path)
+        NavigationStack(path: path) {
+            MainView()
+        } destination: { store in
+            switch store.case {
+            case let .todos(store):
+                TodosView(store: store)
+            case let .qwebclient(store):
+                QWebClientView(store: store)
+            case .qdatabase:
+                QDatabaseView()
+            case let .pageroute(store):
+                PageRouteView(store: store)
             case .main:
-                MainView(store: store)
-            default: Text("default View")
+                MainView()
+            default:
+                ErrorView()
             }
         }
     }
