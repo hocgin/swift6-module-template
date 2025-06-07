@@ -15,10 +15,12 @@ struct WebClient: Sendable {
 extension WebClient: DependencyKey {
     static let liveValue = WebClient(
         forecast: { params in
-            "forecast.result.\(params)"
+            try? await Task.sleep(nanoseconds: 6_000_000_000)
+            return "forecast.result.\(params)"
         },
         search: { params in
-            "search.result.\(params)"
+            try? await Task.sleep(nanoseconds: 6_000_000_000)
+            return "search.result.\(params)"
         }
     )
 }

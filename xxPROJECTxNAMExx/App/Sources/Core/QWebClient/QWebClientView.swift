@@ -14,6 +14,7 @@ struct QWebClient {
     struct State: Equatable, Identifiable {
         let id: UUID = .init()
         var isLoading: Bool = false
+        var result: String = ""
     }
 
     enum Action: BindableAction, Sendable {
@@ -22,7 +23,7 @@ struct QWebClient {
         case loaded(String)
     }
 
-    @Dependency(\.webClient) var weatherClient
+    @Dependency(\.webClient) var webClient
 
     var body: some ReducerOf<Self> {
         BindingReducer()
@@ -32,12 +33,13 @@ struct QWebClient {
                 debugPrint("加载项 新数据..")
                 state.isLoading = true
                 return .run { send in
-                    try? await Task.sleep(nanoseconds: 6_000_000_000)
-                    await send(.loaded(UUID().uuidString))
+                    let result = (try? await webClient.search(query: "模拟请求网络")) ?? "fail"
+                    await send(.loaded(result))
                 }
             case let .loaded(result):
                 debugPrint("加载完成..\(result)")
                 state.isLoading = false
+                state.result = result
                 return .none
             default:
                 return .none
@@ -50,9 +52,13 @@ struct QWebClientView: View {
     @Bindable var store: StoreOf<QWebClient>
 
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Text("Todo.\(store.id)")
-            Text("\(store.isLoading ? "加载中" : "加载完成")")
+            Text("请求状态: \(store.isLoading ? "加载中" : "加载完成")")
+            Text("请求结果: \(store.result)")
+            Button("点击请求") {
+                store.send(.load)
+            }
         }
         .onAppear {
             store.send(.load)

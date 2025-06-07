@@ -20,13 +20,13 @@ struct MainView: View {
             NavigationLink(state: Boot.Path.State.qwebclient(.init())) {
                 Text("qwebclient")
             }
-            NavigationLink(state: Boot.Path.State.tpl) {
+            NavigationLink(state: Boot.Path.State.tpl(.init())) {
                 Text("tpl")
             }
             NavigationLink(state: Boot.Path.State.qdatabase) {
                 Text("qdatabase")
             }
-            NavigationLink(state: Boot.Path.State.pageroute) {
+            NavigationLink(state: Boot.Path.State.pageroute(.init())) {
                 Text("pageroute")
             }
         }

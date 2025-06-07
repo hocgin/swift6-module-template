@@ -39,19 +39,23 @@ struct Todos {
             switch action {
             case .load:
                 debugPrint("加载所有数据..")
-                if let id = state.todos.ids.first {
-                    state.selectedID = id
-                }
                 return .run { send in
                     let result: [Todo.State] = (try? await Task {
                         try await Task.sleep(nanoseconds: 600000)
-                        return [Todo.State(id: UUID().uuidString)]
+                        return [
+                            Todo.State(id: UUID().uuidString, description: "1"),
+                            Todo.State(id: UUID().uuidString, description: "2"),
+                            Todo.State(id: UUID().uuidString, description: "3"),
+                        ]
                     }.value) ?? []
                     await send(.appendAll(result))
                 }
 
             case let .appendAll(arr):
                 state.todos.append(contentsOf: arr)
+                if state.selectedID == nil {
+                    state.selectedID = state.todos.ids.first
+                }
                 return .none
 
             case let .delete(indexSet):
@@ -90,10 +94,10 @@ struct Todos {
                 return .none
             }
         }
-        .forEach(\.todos, action: \.todos) {
-            let _ = debugPrint("Todos.todos")
-            Todo()
-        }
+//        .forEach(\.todos, action: \.todos) {
+//            let _ = debugPrint("Todos.todos")
+//            Todo()
+//        }
     }
 }
 
@@ -102,8 +106,9 @@ struct TodosView: View {
     let itemWidth: Double = UIScreen.main.bounds.width
     @State var id: String?
     var body: some View {
-        VStack {
-            Text("ID:\(store.selectedID)")
+        VStack(alignment: .leading) {
+            Text("ID:\(store.selectedID ?? "nil")")
+                .padding(.top)
                 .padding(.top)
                 .foregroundStyle(.red)
             ScrollView(.horizontal, showsIndicators: false) {
@@ -121,10 +126,8 @@ struct TodosView: View {
         .overlay(alignment: .top) {
             Group {
                 if let selectedID = store.selectedID {
-                    HeaderView(store: store.scope(
-                        state: \.todos[id: selectedID],
-                        action: \.todo
-                    ))
+                    let store = store.scope(state: \.todos[id: selectedID], action: \.todo)
+                    HeaderView(store: store)
                 } else {
                     EmptyView()
                 }
@@ -141,7 +144,7 @@ struct TodosView: View {
         var body: some View {
             WithViewStore(store, observe: { $0 }) { store in
                 let description = store.optional?.description
-                return Text("\(description)")
+                return Text("\(description ?? "")")
             }
         }
     }
@@ -150,18 +153,18 @@ struct TodosView: View {
 extension IdentifiedArrayOf<Todo.State> {
     static let mock: Self = [
         Todo.State(
+            id: UUID().uuidString,
             description: "Check Mail",
-            id: UUID().uuidString,
             isComplete: false
         ),
         Todo.State(
+            id: UUID().uuidString,
             description: "Buy Milk",
-            id: UUID().uuidString,
             isComplete: false
         ),
         Todo.State(
-            description: "Call Mom",
             id: UUID().uuidString,
+            description: "Call Mom",
             isComplete: true
         ),
     ]

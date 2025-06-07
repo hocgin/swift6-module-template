@@ -23,7 +23,7 @@ struct Boot {
         case pageroute(PageRoute)
         case qdatabase
         case qwebclient(QWebClient)
-        case tpl
+        case tpl(Tpl)
     }
 
     @ObservableState
@@ -76,6 +76,8 @@ struct BootView: View {
                 PageRouteView(store: store)
             case .main:
                 MainView()
+            case let .tpl(store):
+                TplView(store: store)
             default:
                 ErrorView()
             }

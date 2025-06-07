@@ -12,8 +12,8 @@ import SwiftUI
 struct Todo {
     @ObservableState
     struct State: Equatable, Identifiable {
-        var description = ""
         public let id: String
+        var description = ""
         var isComplete = false
         var isLoading = false
     }
