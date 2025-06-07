@@ -32,6 +32,9 @@ struct MainView: View {
             NavigationLink(state: AppRoute.State.qlocation(.init())) {
                 Text("qlocation")
             }
+            NavigationLink(state: AppRoute.State.qscene(.init())) {
+                Text("scene")
+            }
         }
     }
 }

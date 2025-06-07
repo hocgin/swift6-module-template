@@ -18,7 +18,10 @@ enum AppRoute {
     case qdatabase(QDatabase)
     case qwebclient(QWebClient)
     case tpl(Tpl)
+    case qscene(QScene)
 }
+
+extension AppRoute.State: Equatable {}
 
 @Reducer
 struct Boot {
@@ -51,8 +54,6 @@ struct Boot {
     }
 }
 
-extension AppRoute.State: Equatable {}
-
 struct BootView: View {
     @Bindable var store: StoreOf<Boot>
 
@@ -64,6 +65,8 @@ struct BootView: View {
             switch store.case {
             case .main:
                 MainView()
+            case let .qscene(store):
+                QSceneView(store: store)
             case let .todos(store):
                 TodosView(store: store)
             case let .qwebclient(store):

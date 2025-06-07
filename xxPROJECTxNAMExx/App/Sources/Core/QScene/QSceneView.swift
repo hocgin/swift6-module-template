@@ -14,12 +14,13 @@ struct QScene {
     struct State: Equatable, Identifiable {
         let id: UUID = .init()
         var isLoading: Bool = false
+        var title = "未初始化"
     }
 
     enum Action: BindableAction, Sendable {
         case binding(BindingAction<State>)
         case onAppear
-        case scenePhase(ScenePhase, ScenePhase)
+        case background
         case loaded(String)
     }
 
@@ -29,17 +30,20 @@ struct QScene {
             switch action {
             case .onAppear:
                 debugPrint("加载项 新数据..")
+                state.title = "加载中"
                 state.isLoading = true
                 return .run { send in
                     try? await Task.sleep(nanoseconds: 6_000_000_000)
                     await send(.loaded(UUID().uuidString))
                 }
             case let .loaded(result):
+                state.title = "加载完成"
                 debugPrint("加载完成..\(result)")
                 state.isLoading = false
                 return .none
-            case let .scenePhase(old, new):
-                debugPrint("xx = \(old), new = \(new)")
+            case .background:
+                state.title = "后台刷新"
+                debugPrint("后台刷新")
                 return .none
             default:
                 return .none
@@ -55,12 +59,15 @@ struct QSceneView: View {
     var body: some View {
         VStack {
             Text("Todo.\(store.id)")
+            Text("\(store.title)")
             Text("\(store.isLoading ? "加载中" : "加载完成")")
         }
-        .onAppear {
-            store.send(.onAppear)
+        .onAppear { store.send(.onAppear) }
+        .onChange(of: scenePhase) { oldPhase, newPhase in
+            if oldPhase == .inactive && newPhase == .active {
+                store.send(.background)
+            }
         }
-        .onChange(of: scenePhase) { store.send(.scenePhase($0, $1)) }
     }
 }
 
