@@ -15,7 +15,7 @@ struct PList {
     struct State: Equatable {
         var isLoading: Bool = false
         var list: IdentifiedArrayOf<ItemState> = []
-//        @ObservationStateIgnored @Shared(.router) var path
+//        @Shared(.route) var path
 
 //        @ObservableState
         struct ItemState: Equatable, Identifiable {
@@ -61,12 +61,12 @@ struct PListView: View {
 
     var body: some View {
         List {
-            NavigationLink(state: Boot.Path.todos(.init())) {
+            NavigationLink(state: AppRoute.todos(.init())) {
                 Text("TODO = TODO")
             }
             .listRowBackground(Color.gray)
 
-            NavigationLink(state: Boot.Path.qwebclient(.init())) {
+            NavigationLink(state: AppRoute.qwebclient(.init())) {
                 Text("qwebClient = qwebClient")
             }
             .listRowBackground(Color.gray)

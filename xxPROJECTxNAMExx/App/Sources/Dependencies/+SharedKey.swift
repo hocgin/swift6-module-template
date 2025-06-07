@@ -7,8 +7,14 @@
 
 import ComposableArchitecture
 
-// extension SharedKey where Self == InMemoryKey<StackState<Boot.Path.State>>.Default {
-//    static var router: Self {
-//        Self[.inMemory("router"), default: StackState([Boot.Path.State.main])]
+// extension SharedKey where Self == InMemoryKey<StackState<AppRoute.State>> {
+//    static var route: Self {
+//        inMemory("route")
 //    }
 // }
+
+extension SharedKey where Self == InMemoryKey<StackState<AppRoute.State>>.Default {
+    static var route: Self {
+        Self[.inMemory("route"), default: StackState([AppRoute.State.main])]
+    }
+}

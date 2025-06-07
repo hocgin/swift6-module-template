@@ -8,34 +8,29 @@
 import ComposableArchitecture
 import CoreData
 import SwiftUI
-import Voyager
 
-enum AppRoute: Route {
+@Reducer
+enum AppRoute {
     case main
+    case qlocation(QLocation)
+    case todos(Todos)
+    case pageroute(PageRoute)
+    case qdatabase(QDatabase)
+    case qwebclient(QWebClient)
+    case tpl(Tpl)
 }
 
 @Reducer
 struct Boot {
-    @Reducer
-    enum Path {
-        case main
-        case qlocation(QLocation)
-        case todos(Todos)
-        case pageroute(PageRoute)
-        case qdatabase(QDatabase)
-        case qwebclient(QWebClient)
-        case tpl(Tpl)
-    }
-
     @ObservableState
     struct State: Equatable {
         var todos: Todos.State = .init()
-        var path = StackState<Path.State>()
+        @Shared(.route) var path
     }
 
     enum Action: BindableAction, Sendable {
         case binding(BindingAction<State>)
-        case path(StackActionOf<Path>)
+        case path(StackActionOf<AppRoute>)
         case todos(Todos.Action)
         case skip
     }
@@ -56,7 +51,7 @@ struct Boot {
     }
 }
 
-extension Boot.Path.State: Equatable {}
+extension AppRoute.State: Equatable {}
 
 struct BootView: View {
     @Bindable var store: StoreOf<Boot>

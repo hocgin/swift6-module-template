@@ -11,25 +11,25 @@ import SwiftUI
 struct MainView: View {
     var body: some View {
         List {
-            NavigationLink(state: Boot.Path.State.main) {
+            NavigationLink(state: AppRoute.State.main) {
                 Text("main")
             }
-            NavigationLink(state: Boot.Path.State.todos(.init())) {
+            NavigationLink(state: AppRoute.State.todos(.init())) {
                 Text("todos")
             }
-            NavigationLink(state: Boot.Path.State.qwebclient(.init())) {
+            NavigationLink(state: AppRoute.State.qwebclient(.init())) {
                 Text("qwebclient")
             }
-            NavigationLink(state: Boot.Path.State.tpl(.init())) {
+            NavigationLink(state: AppRoute.State.tpl(.init())) {
                 Text("tpl")
             }
-            NavigationLink(state: Boot.Path.State.qdatabase(.init())) {
+            NavigationLink(state: AppRoute.State.qdatabase(.init())) {
                 Text("qdatabase")
             }
-            NavigationLink(state: Boot.Path.State.pageroute(.init())) {
+            NavigationLink(state: AppRoute.State.pageroute(.init())) {
                 Text("pageroute")
             }
-            NavigationLink(state: Boot.Path.State.qlocation(.init())) {
+            NavigationLink(state: AppRoute.State.qlocation(.init())) {
                 Text("qlocation")
             }
         }
