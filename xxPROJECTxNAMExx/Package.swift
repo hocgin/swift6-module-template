@@ -27,6 +27,8 @@ let package = Package(
         .package(url: "git@github.com:hocgin/Voyager.git", revision: "aa1d0abfc6dd769f0dd6a716f355cf09cd30b437"),
         .package(url: "https://github.com/marcprux/MemoZ.git", .upToNextMajor(from: "1.5.2")),
         /// TCA
+        /// https://github.com/rcasula/composable-core-location/tree/swift-concurrency
+        .package(url: "https://github.com/rcasula/composable-core-location.git", branch: "swift-concurrency"),
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", .upToNextMajor(from: "1.20.2")),
         .package(url: "https://github.com/pointfreeco/sharing-grdb.git", .upToNextMajor(from: "0.4.1")),
         .package(url: "https://github.com/pointfreeco/swift-tagged.git", .upToNextMajor(from: "0.10.0")),
@@ -34,7 +36,10 @@ let package = Package(
     targets: [
         .target(
             name: "SharedModelAit",
-            dependencies: []
+            dependencies: [],
+            swiftSettings: [
+                .swiftLanguageMode(.v6),
+            ]
         ),
         .target(
             name: "SharedAit",
@@ -70,10 +75,11 @@ let package = Package(
                 .product(name: "Voyager", package: "Voyager"),
                 .product(name: "SharingGRDB", package: "sharing-grdb"),
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                .product(name: "CoreLocationClient", package: "composable-core-location"),
             ],
             swiftSettings: [
                 .swiftLanguageMode(.v6),
-                .enableExperimentalFeature("Macros"),
+//                .enableExperimentalFeature("Macros"),
             ]
         ),
     ]

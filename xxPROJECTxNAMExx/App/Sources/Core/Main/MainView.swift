@@ -29,6 +29,9 @@ struct MainView: View {
             NavigationLink(state: Boot.Path.State.pageroute(.init())) {
                 Text("pageroute")
             }
+            NavigationLink(state: Boot.Path.State.qlocation(.init())) {
+                Text("qlocation")
+            }
         }
     }
 }

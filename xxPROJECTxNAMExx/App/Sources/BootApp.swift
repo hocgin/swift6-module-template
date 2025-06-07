@@ -13,8 +13,6 @@ import Voyager
 @main
 struct BootApp: App {
     @Dependency(\.context) var context
-//    @StateObject var router = Router<AppRoute>(root: .main)
-//    static let store = Store(initialState: Todos.State()) { Todos() }
     static let store = Store(initialState: Boot.State()) { Boot() }
     init() {
         if context == .live {

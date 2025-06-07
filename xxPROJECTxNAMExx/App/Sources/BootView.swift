@@ -19,6 +19,7 @@ struct Boot {
     @Reducer
     enum Path {
         case main
+        case qlocation(QLocation)
         case todos(Todos)
         case pageroute(PageRoute)
         case qdatabase(QDatabase)
@@ -76,6 +77,8 @@ struct BootView: View {
                 PageRouteView(store: store)
             case .main:
                 MainView()
+            case let .qlocation(store):
+                QLocationView(store: store)
             case let .tpl(store):
                 TplView(store: store)
             default:

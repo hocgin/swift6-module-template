@@ -1,5 +1,5 @@
 {
-  "originHash" : "f8df95592021f0badfeaacf6823ee1a492466648659e3eab1a94a9e7841d27f7",
+  "originHash" : "fa58fb2d7288b6d1b2ab6fc814cf5ebb0fe1a2d780b65c76c99de060ff4e5815",
   "pins" : [
     {
       "identity" : "cache",
@@ -26,6 +26,15 @@
       "state" : {
         "revision" : "5928286acce13def418ec36d05a001a9641086f2",
         "version" : "1.0.3"
+      }
+    },
+    {
+      "identity" : "composable-core-location",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/rcasula/composable-core-location.git",
+      "state" : {
+        "branch" : "swift-concurrency",
+        "revision" : "363839a87ee57bf2b73285921243dca982397eef"
       }
     },
     {
