@@ -5,6 +5,7 @@
 //  Created by hocgin on 2025/6/6.
 //
 import ComposableArchitecture
+import HTTPRequestKit
 
 @DependencyClient
 struct WebClient: Sendable {
@@ -20,7 +21,9 @@ extension WebClient: DependencyKey {
         },
         search: { params in
             try? await Task.sleep(nanoseconds: 6_000_000_000)
-            return "search.result.\(params)"
+            let result = try await HTTPRequest.build(baseURL: "https://mockbin.io/bins/9cb3e59a017449b081da7defd93dc684")
+                .run()
+            return "search.result.\(params)+\(result)"
         }
     )
 }

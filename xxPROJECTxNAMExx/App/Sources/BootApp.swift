@@ -8,7 +8,6 @@
 import ComposableArchitecture
 import SharingGRDB
 import SwiftUI
-import Voyager
 
 @main
 struct BootApp: App {

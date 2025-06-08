@@ -4,9 +4,12 @@
 //
 //  Created by hocgin on 2025/6/6.
 //
+import CacheKit
 import ComposableArchitecture
 import Foundation
 import SwiftUI
+
+// import HTTP
 
 @Reducer
 struct QWebClient {
@@ -33,8 +36,10 @@ struct QWebClient {
                 debugPrint("加载项 新数据..")
                 state.isLoading = true
                 return .run { send in
-                    let result = (try? await webClient.search(query: "模拟请求网络")) ?? "fail"
-                    await send(.loaded(result))
+                    try await CacheKit.useStale(forKey: "test", promise: { (result: String?) in
+                        guard let result else { return }
+                        Task { await send(.loaded("\(result)_\(UUID().uuidString)")) }
+                    }) { (try? await webClient.search(query: "模拟请求网络")) ?? "fail" }
                 }
             case let .loaded(result):
                 debugPrint("加载完成..\(result)")

@@ -8,7 +8,7 @@ let package = Package(
     defaultLocalization: "zh",
     platforms: [
         .iOS(.v17),
-//        .macOS(.v15),
+        .macOS(.v15),
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
@@ -24,7 +24,8 @@ let package = Package(
     dependencies: [
         .package(url: "git@github.com:hocgin/SwiftHit.git", revision: "1ca5df38ad1425a065961352c2e83cee069356b4"),
         .package(url: "git@github.com:hocgin/StoreKitHelper.git", revision: "6db54ccae7a25538452e58e80c6c854a5f9c5935"),
-        .package(url: "git@github.com:hocgin/Voyager.git", revision: "aa1d0abfc6dd769f0dd6a716f355cf09cd30b437"),
+        .package(url: "git@github.com:hocgin/CacheKit.git", .upToNextMajor(from: "1.0.1")),
+        .package(url: "git@github.com:hocgin/HTTPRequestKit.git", .upToNextMajor(from: "1.0.2")),
         .package(url: "https://github.com/marcprux/MemoZ.git", .upToNextMajor(from: "1.5.2")),
         /// TCA
         /// https://github.com/rcasula/composable-core-location/tree/swift-concurrency
@@ -47,7 +48,8 @@ let package = Package(
                 /// SwiftHit
                 .product(name: "LogHit", package: "SwiftHit"),
                 .product(name: "ExtensionHit", package: "SwiftHit"),
-                .product(name: "RequestHit", package: "SwiftHit"),
+                .product(name: "HTTPRequestKit", package: "HTTPRequestKit"),
+                .product(name: "CacheKit", package: "CacheKit"),
                 /// MemoZ
                 .product(name: "MemoZ", package: "MemoZ"),
                 /// Tagged
@@ -72,7 +74,6 @@ let package = Package(
             dependencies: [
                 .target(name: "SharedAit"),
                 .product(name: "StoreKitHelper", package: "StoreKitHelper"),
-                .product(name: "Voyager", package: "Voyager"),
                 .product(name: "SharingGRDB", package: "sharing-grdb"),
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "CoreLocationClient", package: "composable-core-location"),
