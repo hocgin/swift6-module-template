@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 @Reducer
-struct QSheetCh {
+struct QSheetSheet {
     @ObservableState
     struct State: Equatable, Identifiable {
         let id: UUID = .init()
@@ -44,8 +44,8 @@ struct QSheetCh {
     }
 }
 
-struct QSheetChView: View {
-    @Bindable var store: StoreOf<QSheetCh>
+struct QSheetSheetView: View {
+    @Bindable var store: StoreOf<QSheetSheet>
 
     var body: some View {
         VStack {
@@ -60,12 +60,12 @@ struct QSheetChView: View {
 
 /// =======================================================
 
-extension QSheetCh.State {
+extension QSheetSheet.State {
     static let mock: Self = .init()
 }
 
 #Preview {
-    QSheetChView(
-        store: Store(initialState: .mock) { QSheetCh() }
+    QSheetSheetView(
+        store: Store(initialState: .mock) { QSheetSheet() }
     )
 }

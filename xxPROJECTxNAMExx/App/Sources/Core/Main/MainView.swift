@@ -35,6 +35,9 @@ struct MainView: View {
             NavigationLink(state: AppRoute.State.qscene(.init())) {
                 Text("scene")
             }
+            NavigationLink(state: AppRoute.State.qsheet(.init())) {
+                Text("QSheet")
+            }
         }
     }
 }

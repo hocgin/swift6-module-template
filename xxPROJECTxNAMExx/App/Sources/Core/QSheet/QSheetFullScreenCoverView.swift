@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 @Reducer
-struct QSheetPopover {
+struct QSheetFullScreenCover {
     @ObservableState
     struct State: Equatable, Identifiable {
         let id: UUID = .init()
@@ -44,8 +44,8 @@ struct QSheetPopover {
     }
 }
 
-struct QSheetPopoverView: View {
-    @Bindable var store: StoreOf<QSheetPopover>
+struct QSheetFullScreenCoverView: View {
+    @Bindable var store: StoreOf<QSheetFullScreenCover>
 
     var body: some View {
         VStack {
@@ -60,12 +60,12 @@ struct QSheetPopoverView: View {
 
 /// =======================================================
 
-extension QSheetPopover.State {
+extension QSheetFullScreenCover.State {
     static let mock: Self = .init()
 }
 
 #Preview {
-    QSheetPopoverView(
-        store: Store(initialState: .mock) { QSheetPopover() }
+    QSheetFullScreenCoverView(
+        store: Store(initialState: .mock) { QSheetFullScreenCover() }
     )
 }

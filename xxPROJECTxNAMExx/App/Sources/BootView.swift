@@ -19,6 +19,7 @@ enum AppRoute {
     case qwebclient(QWebClient)
     case tpl(Tpl)
     case qscene(QScene)
+    case qsheet(QSheet)
 }
 
 extension AppRoute.State: Equatable {}
@@ -79,6 +80,8 @@ struct BootView: View {
                 QLocationView(store: store)
             case let .tpl(store):
                 TplView(store: store)
+            case let .qsheet(store):
+                QSheetView(store: store)
             default:
                 ErrorView()
             }
