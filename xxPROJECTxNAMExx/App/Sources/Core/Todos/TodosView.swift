@@ -95,10 +95,10 @@ struct Todos {
                 return .none
             }
         }
-//        .forEach(\.todos, action: \.todos) {
-//            let _ = debugPrint("Todos.todos")
-//            Todo()
-//        }
+        .forEach(\.todos, action: \.todos) {
+            let _ = debugPrint("Todos.todos")
+            Todo()
+        }
     }
 }
 
