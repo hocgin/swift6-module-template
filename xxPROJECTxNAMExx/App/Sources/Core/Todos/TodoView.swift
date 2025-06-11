@@ -22,6 +22,7 @@ struct Todo {
         case binding(BindingAction<State>)
         case load
         case loaded(String)
+        case addData(String)
     }
 
     var body: some ReducerOf<Self> {
@@ -53,6 +54,9 @@ struct TodoView: View {
             Text("Todo.\(store.id)")
             Text("\(store.isLoading ? "加载中" : "加载完成")")
             Text("description.\(store.description)")
+            Button("新增") {
+                store.send(.addData("子节点新增的数据"))
+            }
         }
         .onAppear {
             store.send(.load)

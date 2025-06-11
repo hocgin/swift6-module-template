@@ -90,6 +90,14 @@ struct Todos {
                 state.todos.sort { $1.isComplete && !$0.isComplete }
                 return .none
 
+            case let .todos(.element(id: _, action: .addData(data))):
+                debugPrint("data = \(data)")
+                state.todos.append(Todo.State(
+                    id: UUID().uuidString,
+                    description: "\(data)"
+                ))
+                return .none
+
             default:
                 let _ = debugPrint("default = ")
                 return .none
