@@ -1,5 +1,5 @@
 //
-//  Todo.swift
+//  QShared.swift
 //  App
 //
 //  Created by hocgin on 2025/6/6.
@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 @Reducer
-struct Todo {
+struct QShared {
     @ObservableState
     struct State: Equatable, Identifiable {
         public let id: String
@@ -40,26 +40,35 @@ struct Todo {
                 state.description = result
                 state.isLoading = false
                 return .none
+            case let .addData(result):
+                debugPrint("新增数据: \(result)")
+//                @Shared(.sharedsItems) var items
+//                $items.withLock {
+//                    _ = $0.append(QShared.State(id: UUID().uuidString, description: result))
+//                }
+//                debugPrint("当前数据: \(items.count)")
+                return .none
             default:
                 return .none
             }
         }
+        ._printChanges()
     }
 }
 
-struct TodoView: View {
-    @Bindable var store: StoreOf<Todo>
+struct QSharedView: View {
+    @Bindable var store: StoreOf<QShared>
     var body: some View {
         VStack {
-            Text("Todo.\(store.id)")
+            Text("QShared.\(store.id)")
             Text("\(store.isLoading ? "加载中" : "加载完成")")
             Text("description.\(store.description)")
             Button("新增") {
                 store.send(.addData("子节点新增的数据"))
             }
         }
-        .onAppear {
-            store.send(.load)
-        }
+//        .onAppear {
+//            store.send(.load)
+//        }
     }
 }

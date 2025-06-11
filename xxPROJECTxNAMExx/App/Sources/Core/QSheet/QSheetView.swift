@@ -104,10 +104,7 @@ struct QSheetView: View {
             Button("openFullScreenCover") { store.send(.openFullScreenCover) }
         }
         .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
-        .sheet(item: $store.scope(
-            state: \.destination?.sheet,
-            action: \.destination.sheet
-        )) { store in
+        .sheet(item: $store.scope(state: \.destination?.sheet, action: \.destination.sheet)) { store in
             QSheetSheetView(store: store)
         }
         .fullScreenCover(item: $store.scope(

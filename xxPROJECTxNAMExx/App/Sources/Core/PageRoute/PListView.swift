@@ -37,9 +37,11 @@ struct PList {
                 debugPrint("PLIST 加载项 新数据..")
                 state.isLoading = true
                 return .run { send in
+                    @Shared(.route) var route
                     await send(.loaded(UUID().uuidString))
                 }
             case let .loaded(result):
+                @Shared(.route) var route
                 debugPrint("PLIST 加载完成..\(result)  \(state.list.count)")
                 state.list.append(.init(id: .init(), title: result))
                 state.isLoading = false
