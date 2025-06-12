@@ -55,7 +55,10 @@ struct CustomDependencyClient {
                 return .run { send in
                     await withTaskGroup(of: Void.self) { group in
                         group.addTask {
-                            await withTaskCancellation(id: CancelID.customClient, cancelInFlight: true) {
+                            await withTaskCancellation(
+                                id: CancelID.customClient,
+                                cancelInFlight: true
+                            ) {
                                 for await action in await customClient.delegate() {
                                     await send(.customClient(action))
                                 }

@@ -10,6 +10,7 @@ import CoreData
 import SwiftUI
 
 @Reducer
+// @CasePathable
 enum AppRoute {
     case main
     case qlocation(QLocation)
@@ -61,35 +62,36 @@ struct BootView: View {
     @Bindable var store: StoreOf<Boot>
 
     var body: some View {
-        let path = $store.scope(state: \.path, action: \.path)
-        NavigationStack(path: path) {
+        NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
             MainView()
         } destination: { store in
-            switch store.case {
-            case .main:
-                MainView()
-            case let .qscene(store):
-                QSceneView(store: store)
-            case let .todos(store):
-                TodosView(store: store)
-            case let .qwebclient(store):
-                QWebClientView(store: store)
-            case let .qdatabase(store):
-                QDatabaseView(store: store)
-            case let .pageroute(store):
-                PageRouteView(store: store)
-            case let .qlocation(store):
-                QLocationView(store: store)
-            case let .tpl(store):
-                TplView(store: store)
-            case let .qsheet(store):
-                QSheetView(store: store)
-            case let .qshareds(store):
-                QSharedsView(store: store)
-            case let .customdependencyclient(store):
-                CustomDependencyClientView(store: store)
-            default:
-                ErrorView()
+            WithPerceptionTracking {
+                switch store.case {
+                case .main:
+                    MainView()
+                case let .qscene(store):
+                    QSceneView(store: store)
+                case let .todos(store):
+                    TodosView(store: store)
+                case let .qwebclient(store):
+                    QWebClientView(store: store)
+                case let .qdatabase(store):
+                    QDatabaseView(store: store)
+                case let .pageroute(store):
+                    PageRouteView(store: store)
+                case let .qlocation(store):
+                    QLocationView(store: store)
+                case let .tpl(store):
+                    TplView(store: store)
+                case let .qsheet(store):
+                    QSheetView(store: store)
+                case let .qshareds(store):
+                    QSharedsView(store: store)
+                case let .customdependencyclient(store):
+                    CustomDependencyClientView(store: store)
+                default:
+                    ErrorView()
+                }
             }
         }
 //        .environment(\.path, store.path)

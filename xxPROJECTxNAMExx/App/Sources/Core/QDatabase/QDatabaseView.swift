@@ -11,6 +11,9 @@ import SwiftUI
 @Reducer
 struct QDatabase {
     @Dependency(\.defaultDatabase) var database
+    @Dependency(\.uuid) var uuid
+    @Dependency(\.mainQueue) var mainQueue
+    @Dependency(\.continuousClock) var continuousClock
 
     @ObservableState
     struct State: Equatable {

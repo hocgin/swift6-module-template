@@ -17,7 +17,7 @@ extension SharedKey where Self == InMemoryKey<StackState<AppRoute.State>>.Defaul
     static var route: Self {
         Self[
             .inMemory("route"),
-            default: StackState([AppRoute.State.main])
+            default: StackState([])
         ]
     }
 }
