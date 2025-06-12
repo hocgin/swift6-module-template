@@ -20,10 +20,13 @@ extension WebClient: DependencyKey {
             return "forecast.result.\(params)"
         },
         search: { params in
-            try? await Task.sleep(nanoseconds: 6_000_000_000)
-            let result = try await HTTPRequest.build(baseURL: "https://mockbin.io/bins/9cb3e59a017449b081da7defd93dc684")
-                .run()
-            return "search.result.\(params)+\(result)"
+            do {
+                let result = try await HTTPRequest.build(baseURL: "https://mockbin.io/bins/9cb3e59a017449b081da7defd93dc684")
+                    .run()
+            } catch {
+                debugPrint("网络请求失败 \(error)")
+            }
+            return "search.result.\(params)"
         }
     )
 }

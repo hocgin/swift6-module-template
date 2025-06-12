@@ -1,61 +1,100 @@
-//
-//  Connectivity.swift
-//  App
-//
-//  Created by hocgin on 2025/6/13.
-//
+import Combine
+import ComposableArchitecture
+import Foundation
+import Network
 
+@DependencyClient
+struct NetworkMonitorClient {
+    public var delegate: @Sendable () async -> AsyncStream<Action> = { .never }
 
-enum Connectivity {
-    case online
-    case offline
+    enum Action: Equatable {
+        case online(NWInterface.InterfaceType?)
+        case offline(NWInterface.InterfaceType?)
+    }
 }
 
-struct PathMonitorClient {
-    var start: () -> Effect<Connectivity, Never>
-    var stop: () -> Effect<Never, Never>
-}
-
-extension PathMonitorClient {
+extension NetworkMonitorClient {
     static var live: Self {
-        var pathMonitor: NWPathMonitor?
-        
+        let task = Task<NetworkMonitorClient.Delegate, Never> { @MainActor in
+            return NetworkMonitorClient.Delegate()
+        }
+
         return Self(
-            start: {
-                .run { subscriber in
-                    pathMonitor = NWPathMonitor()
-                    
-                    pathMonitor?.pathUpdateHandler = { path in
-                        switch path.status {
-                        case .satisfied:
-                            subscriber.send(.online)
-                        case .unsatisfied:
-                            subscriber.send(.offline)
-                        }
-                    }
-                    
-                    pathMonitor?.start(queue: queue)
-                    
-                    return AnyCancellable {
-                        pathMonitor?.cancel()
-                        pathMonitor = nil
-                    }
-                }
+            delegate: { @MainActor in
+                let delegate = await task.value
+                return AsyncStream { delegate.registerContinuation($0) }
             },
-            stop: {
-                .fireAndForget {
-                    pathMonitor?.cancel()
-                    pathMonitor = nil
-                }
-            }
         )
     }
-    
-    static let mock = Self( /* ... */ )
+
+    public final class Delegate: @unchecked Sendable {
+        let continuations: LockIsolated<[UUID: AsyncStream<NetworkMonitorClient.Action>.Continuation]>
+        private var queue = DispatchQueue(label: "NetworkMonitorClient")
+        private var monitor = NWPathMonitor()
+
+        init() {
+            self.continuations = .init([:])
+            startMonitoring()
+        }
+
+        private func startMonitoring() {
+            monitor.pathUpdateHandler = { path in
+                Task { @MainActor in
+                    let isConnected = path.status == .satisfied
+                    var connectionType: NWInterface.InterfaceType?
+
+                    let types: [NWInterface.InterfaceType] = [.wifi, .cellular, .wiredEthernet, .loopback]
+                    if let type = types.first(where: { path.usesInterfaceType($0) }) {
+                        connectionType = type
+                    } else {
+                        connectionType = nil
+                    }
+
+                    if isConnected {
+                        self.send(.online(connectionType))
+                    } else {
+                        self.send(.offline(connectionType))
+                    }
+                }
+            }
+
+            monitor.start(queue: queue)
+        }
+
+        func stopMonitoring() {
+            monitor.cancel()
+        }
+
+        func registerContinuation(_ continuation: AsyncStream<NetworkMonitorClient.Action>.Continuation) {
+            Task { [continuations] in
+                continuations.withValue {
+                    let id = UUID()
+                    $0[id] = continuation
+                    continuation.onTermination = { [weak self] _ in self?.unregisterContinuation(withID: id) }
+                }
+            }
+        }
+
+        private func unregisterContinuation(withID id: UUID) {
+            Task { [continuations] in continuations.withValue { $0.removeValue(forKey: id) } }
+        }
+
+        public func send(_ action: NetworkMonitorClient.Action) {
+            Task { [continuations] in
+                continuations.withValue { $0.values.forEach { $0.yield(action) } }
+            }
+        }
+    }
 }
 
-private let queue: DispatchQueue {
-    var increment: Int = 0
-    defer { increment += 1 }
-    return DispatchQueue(label: "PathMonitorQueue-\(increment)")
+extension DependencyValues {
+    var networkMonitorClient: NetworkMonitorClient {
+        get { self[NetworkMonitorClient.self] }
+        set { self[NetworkMonitorClient.self] = newValue }
+    }
+}
+
+extension NetworkMonitorClient: DependencyKey {
+    public static let testValue = Self()
+    public static let liveValue = Self.live
 }

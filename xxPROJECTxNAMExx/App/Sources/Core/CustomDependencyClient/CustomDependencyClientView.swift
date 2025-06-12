@@ -11,6 +11,7 @@ import SwiftUI
 @Reducer
 struct CustomDependencyClient {
     @Dependency(\.customClient) var customClient
+    @Dependency(\.networkMonitorClient) var networkMonitorClient
 
     @ObservableState
     struct State: Equatable, Identifiable {
@@ -24,10 +25,12 @@ struct CustomDependencyClient {
         case onAppear
         case loaded(String)
         case customClient(CustomClient.Action)
+        case networkMonitorClient(NetworkMonitorClient.Action)
     }
 
     enum CancelID: Int {
         case customClient
+        case networkMonitorClient
     }
 
     @ReducerBuilder<State, Action>
@@ -37,6 +40,10 @@ struct CustomDependencyClient {
             case let .customClient(.didUpdateConnected(isConnected, type)):
                 debugPrint("isConnected = \(isConnected), type = \(type)")
                 state.isConnected = isConnected
+                return .none
+            case let .networkMonitorClient(status):
+                debugPrint("networkMonitorClient: status = \(status)")
+//                state.isConnected = isConnected
                 return .none
             default:
                 return .none
@@ -52,20 +59,32 @@ struct CustomDependencyClient {
             case .onAppear:
                 debugPrint("加载项 新数据..")
                 state.isLoading = true
-                return .run { send in
-                    await withTaskGroup(of: Void.self) { group in
-                        group.addTask {
-                            await withTaskCancellation(
-                                id: CancelID.customClient,
-                                cancelInFlight: true
-                            ) {
-                                for await action in await customClient.delegate() {
-                                    await send(.customClient(action))
+                return .concatenate(
+                    .run { send in
+                        await withTaskGroup(of: Void.self) { group in
+                            group.addTask {
+                                await withTaskCancellation(
+                                    id: CancelID.customClient,
+                                    cancelInFlight: true
+                                ) {
+                                    for await action in await customClient.delegate() {
+                                        await send(.customClient(action))
+                                    }
+                                }
+                            }
+                            group.addTask {
+                                await withTaskCancellation(
+                                    id: CancelID.networkMonitorClient,
+                                    cancelInFlight: true
+                                ) {
+                                    for await action in await networkMonitorClient.delegate() {
+                                        await send(.networkMonitorClient(action))
+                                    }
                                 }
                             }
                         }
                     }
-                }
+                )
             case let .loaded(result):
                 debugPrint("加载完成..\(result)")
                 state.isLoading = false
