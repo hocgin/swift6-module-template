@@ -20,6 +20,8 @@ enum AppRoute {
     case tpl(Tpl)
     case qscene(QScene)
     case qsheet(QSheet)
+    case qshareds(QShareds)
+    case customdependencyclient(CustomDependencyClient)
 }
 
 extension AppRoute.State: Equatable {}
@@ -82,6 +84,10 @@ struct BootView: View {
                 TplView(store: store)
             case let .qsheet(store):
                 QSheetView(store: store)
+            case let .qshareds(store):
+                QSharedsView(store: store)
+            case let .customdependencyclient(store):
+                CustomDependencyClientView(store: store)
             default:
                 ErrorView()
             }

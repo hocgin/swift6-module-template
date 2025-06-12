@@ -38,6 +38,9 @@ struct MainView: View {
             NavigationLink(state: AppRoute.State.qsheet(.init())) {
                 Text("QSheet")
             }
+            NavigationLink(state: AppRoute.State.customdependencyclient(.init())) {
+                Text("CustomDependencyClient")
+            }
         }
     }
 }

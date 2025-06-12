@@ -9,20 +9,43 @@ import Foundation
 import SwiftUI
 
 @Reducer
-struct Tpl {
+struct CustomDependencyClient {
+    @Dependency(\.customClient) var customClient
+
     @ObservableState
     struct State: Equatable, Identifiable {
         let id: UUID = .init()
         var isLoading: Bool = false
+        var isConnected: Bool?
     }
 
     enum Action: BindableAction, Sendable {
         case binding(BindingAction<State>)
         case onAppear
         case loaded(String)
+        case customClient(CustomClient.Action)
+    }
+
+    enum CancelID: Int {
+        case customClient
+    }
+
+    @ReducerBuilder<State, Action>
+    var CustomClientReducer: some ReducerOf<Self> {
+        Reduce { state, action in
+            switch action {
+            case let .customClient(.didUpdateConnected(isConnected, type)):
+                debugPrint("isConnected = \(isConnected), type = \(type)")
+                state.isConnected = isConnected
+                return .none
+            default:
+                return .none
+            }
+        }
     }
 
     var body: some ReducerOf<Self> {
+        CustomClientReducer
         BindingReducer()
         Reduce { state, action in
             switch action {
@@ -30,8 +53,15 @@ struct Tpl {
                 debugPrint("加载项 新数据..")
                 state.isLoading = true
                 return .run { send in
-                    try? await Task.sleep(nanoseconds: 6_000_000_000)
-                    await send(.loaded(UUID().uuidString))
+                    await withTaskGroup(of: Void.self) { group in
+                        group.addTask {
+                            await withTaskCancellation(id: CancelID.customClient, cancelInFlight: true) {
+                                for await action in await customClient.delegate() {
+                                    await send(.customClient(action))
+                                }
+                            }
+                        }
+                    }
                 }
             case let .loaded(result):
                 debugPrint("加载完成..\(result)")
@@ -44,12 +74,13 @@ struct Tpl {
     }
 }
 
-struct TplView: View {
-    @Bindable var store: StoreOf<Tpl>
+struct CustomDependencyClientView: View {
+    @Bindable var store: StoreOf<CustomDependencyClient>
 
     var body: some View {
         VStack {
             Text("Todo.\(store.id)")
+            Text("isConnected.\(store.isConnected)")
             Text("\(store.isLoading ? "加载中" : "加载完成")")
         }
         .onAppear {
@@ -60,12 +91,12 @@ struct TplView: View {
 
 /// =======================================================
 
-extension Tpl.State {
+extension CustomDependencyClient.State {
     static let mock: Self = .init()
 }
 
 #Preview {
-    TplView(
-        store: Store(initialState: .mock) { Tpl() }
+    CustomDependencyClientView(
+        store: Store(initialState: .mock) { CustomDependencyClient() }
     )
 }
