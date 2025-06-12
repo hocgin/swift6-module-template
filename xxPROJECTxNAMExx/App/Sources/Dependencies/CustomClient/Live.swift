@@ -15,6 +15,12 @@ extension CustomClient {
                 let delegate = await task.value.delegate
                 return AsyncStream { delegate.registerContinuation($0) }
             },
+            isConnected: {
+                await task.value.manager.isConnected
+            },
+            getConnectionType: {
+                await task.value.manager.connectionType
+            },
             forecast: { params in
                 try? await Task.sleep(nanoseconds: 6_000_000_000)
                 return "forecast.result.\(params)"

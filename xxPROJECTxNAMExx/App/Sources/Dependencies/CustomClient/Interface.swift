@@ -13,6 +13,8 @@ import Network
 public struct CustomClient: Sendable {
     public var delegate: @Sendable () async -> AsyncStream<Action> = { .never }
     ///
+    var isConnected: @Sendable () async -> Bool?
+    var getConnectionType: @Sendable () async -> NWInterface.InterfaceType?
     var forecast: @Sendable (_ location: String) async throws -> String
     var search: @Sendable (_ query: String) async throws -> String
 
