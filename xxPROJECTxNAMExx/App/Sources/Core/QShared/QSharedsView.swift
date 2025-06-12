@@ -73,7 +73,7 @@ struct QSharedsView: View {
     @State var id: String?
     var body: some View {
         VStack(alignment: .leading) {
-            ScrollView(.horizontal, showsIndicators: false) {
+            ScrollView(.vertical, showsIndicators: false) {
                 LazyVStack(spacing: .zero) {
                     ForEach(store.scope(state: \.items, action: \.items), id: \.state.id) { store in
                         QSharedView(store: store)
@@ -100,6 +100,46 @@ extension IdentifiedArrayOf<QShared.State> {
             id: UUID().uuidString,
             description: "Buy Milk",
             isComplete: false
+        ),
+        QShared.State(
+            id: UUID().uuidString,
+            description: "Call Mom",
+            isComplete: true
+        ),
+        QShared.State(
+            id: UUID().uuidString,
+            description: "Call Mom",
+            isComplete: true
+        ),
+        QShared.State(
+            id: UUID().uuidString,
+            description: "Call Mom",
+            isComplete: true
+        ),
+        QShared.State(
+            id: UUID().uuidString,
+            description: "Call Mom",
+            isComplete: true
+        ),
+        QShared.State(
+            id: UUID().uuidString,
+            description: "Call Mom",
+            isComplete: true
+        ),
+        QShared.State(
+            id: UUID().uuidString,
+            description: "Call Mom",
+            isComplete: true
+        ),
+        QShared.State(
+            id: UUID().uuidString,
+            description: "Call Mom",
+            isComplete: true
+        ),
+        QShared.State(
+            id: UUID().uuidString,
+            description: "Call Mom",
+            isComplete: true
         ),
         QShared.State(
             id: UUID().uuidString,

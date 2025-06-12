@@ -23,6 +23,7 @@ struct QShared {
         case load
         case loaded(String)
         case addData(String)
+        case updateData(String)
     }
 
     var body: some ReducerOf<Self> {
@@ -30,15 +31,18 @@ struct QShared {
         Reduce { state, action in
             switch action {
             case .load:
-                debugPrint("加载项 新数据..")
+                debugPrint("加载项 \(state.description) 新数据..")
                 state.isLoading = true
                 return .run { send in
                     try? await Task.sleep(nanoseconds: 6_000_000_000)
                     await send(.loaded(UUID().uuidString))
                 }
             case let .loaded(result):
-                state.description = result
+//                state.description = result
                 state.isLoading = false
+                return .none
+            case let .updateData(result):
+                state.description = "updateData \(result)"
                 return .none
             case let .addData(result):
                 debugPrint("新增数据: \(result)")
@@ -66,9 +70,12 @@ struct QSharedView: View {
             Button("新增") {
                 store.send(.addData("子节点新增的数据"))
             }
+            Button("更新") {
+                store.send(.updateData("xx"))
+            }
         }
-//        .onAppear {
-//            store.send(.load)
-//        }
+        .onAppear {
+            store.send(.load)
+        }
     }
 }
