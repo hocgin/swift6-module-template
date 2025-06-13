@@ -5,8 +5,10 @@
 //  Created by __AUTHOR NAME__ on __TODAYS_DATE__.
 //
 
+import Combine
 import ComposableArchitecture
 import CoreData
+import LogHit
 import SwiftUI
 
 @Reducer
@@ -38,6 +40,7 @@ struct Boot {
     enum Action: BindableAction, Sendable {
         case binding(BindingAction<State>)
         case path(StackActionOf<AppRoute>)
+        case onAppear
         case todos(Todos.Action)
         case skip
     }
@@ -49,6 +52,25 @@ struct Boot {
         BindingReducer()
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                Log.info("~~")
+                return .concatenate(
+                    .publisher {
+                        Future<[String], Never> { promise in
+                            DispatchQueue.global().async {
+                                let result = "GlobalState.CoreData.listLocation()"
+                                Log.info("current = \(Thread.current), isMainThread = \(Thread.isMainThread), Future.init result = \(result)")
+                                promise(.success([result]))
+                            }
+                        }
+                        .subscribe(on: DispatchQueue.global(qos: .background))
+                        .receive(on: DispatchQueue.global(qos: .background))
+                        .map { entities in
+                            Log.info("current = \(Thread.current), isMainThread = \(Thread.isMainThread), Future.map.entities = \(entities)")
+                            return .skip
+                        }
+                    }
+                )
             default:
                 _ = state
                 return .none
@@ -93,6 +115,9 @@ struct BootView: View {
                     ErrorView()
                 }
             }
+        }
+        .onAppear {
+            store.send(.onAppear)
         }
 //        .environment(\.path, store.path)
     }

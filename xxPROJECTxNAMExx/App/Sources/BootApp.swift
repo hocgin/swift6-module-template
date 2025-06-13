@@ -8,12 +8,14 @@
 import ComposableArchitecture
 import SharingGRDB
 import SwiftUI
+import LogHit
 
 @main
 struct BootApp: App {
     @Dependency(\.context) var context
     static let store = Store(initialState: Boot.State()) { Boot() }
     init() {
+        Log.setup()
         if context == .live {
             prepareDependencies {
                 $0.defaultDatabase = try! appDatabase()
