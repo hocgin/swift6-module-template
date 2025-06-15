@@ -1,5 +1,5 @@
 {
-  "originHash" : "25e11f89442301cc75db39d2fb19e68dc4ad34094ce85a8add1140c937ca8cb5",
+  "originHash" : "e3c418d381e382af0b58ad23fc8909f5aa8fe53378e54f9dfce4b536d5b3a5f4",
   "pins" : [
     {
       "identity" : "cache",
@@ -185,8 +185,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-log",
       "state" : {
-        "revision" : "96a2f8a0fa41e9e09af4585e2724c4e825410b91",
-        "version" : "1.6.2"
+        "revision" : "3d8596ed08bd13520157f0355e35caed215ffbfa",
+        "version" : "1.6.3"
       }
     },
     {
@@ -230,8 +230,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-structured-queries",
       "state" : {
-        "revision" : "9045819f2fc3681ea98c95b2a15d98c459141c98",
-        "version" : "0.5.1"
+        "revision" : "79ac5f57218502356738b647ee9449c7603f9004",
+        "version" : "0.6.0"
       }
     },
     {

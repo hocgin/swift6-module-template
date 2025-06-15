@@ -20,14 +20,19 @@ struct QWebClient {
         let id: UUID = .init()
         var isLoading: Bool = false
         var result: String = ""
+        var search: String = ""
     }
 
     enum Action: BindableAction, Sendable {
         case binding(BindingAction<State>)
         case load
         case loaded(String)
+        case search(String)
     }
 
+    enum CancelID { case search }
+
+    @Dependency(\.mainQueue) var mainQueue
     var body: some ReducerOf<Self> {
         BindingReducer()
         Reduce { state, action in
@@ -46,6 +51,11 @@ struct QWebClient {
                 state.isLoading = false
                 state.result = result
                 return .none
+            case let .search(query):
+                return .run { _ in
+                    debugPrint("搜索..\(query)")
+                }
+                .debounce(id: CancelID.search, for: .milliseconds(800), scheduler: mainQueue)
             default:
                 return .none
             }
@@ -57,13 +67,23 @@ struct QWebClientView: View {
     @Bindable var store: StoreOf<QWebClient>
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Todo.\(store.id)")
-            Text("请求状态: \(store.isLoading ? "加载中" : "加载完成")")
-            Text("请求结果: \(store.result)")
-            Button("点击请求") {
-                store.send(.load)
+        NavigationStack {
+            VStack(alignment: .leading) {
+                Text("Todo.\(store.id)")
+                Text("请求状态: \(store.isLoading ? "加载中" : "加载完成")")
+                Text("请求结果: \(store.result)")
+                Button("点击请求") {
+                    store.send(.load)
+                }
             }
+        }
+        .searchable(
+            text: $store.search,
+            placement: .navigationBarDrawer(displayMode: .always)
+        )
+        .onChange(of: store.search) { _, query in
+            debugPrint("搜索")
+            store.send(.search(query))
         }
         .onAppear {
             store.send(.load)
