@@ -33,6 +33,7 @@ let package = Package(
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", .upToNextMajor(from: "1.20.2")),
         .package(url: "https://github.com/pointfreeco/sharing-grdb.git", .upToNextMajor(from: "0.4.1")),
         .package(url: "https://github.com/pointfreeco/swift-tagged.git", .upToNextMajor(from: "0.10.0")),
+        .package(url: "https://github.com/tgrapperon/swift-dependencies-additions", .upToNextMajor(from: "1.1.1")),
     ],
     targets: [
         .target(
@@ -77,6 +78,7 @@ let package = Package(
                 .product(name: "SharingGRDB", package: "sharing-grdb"),
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "CoreLocationClient", package: "composable-core-location"),
+//                .product(name: "DependenciesAdditions", package: "swift-dependencies-additions"),
             ],
             swiftSettings: [
                 .swiftLanguageMode(.v6),
