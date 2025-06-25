@@ -68,8 +68,9 @@ func replaceVariablesInFileNames(at path: String, substitutions: [(from: String,
 
 func promptForTemplate() -> String {
     let templatePairs: [(title: String, value: String)] = [
-        (title: "TCA Template", value: "xxPROJECTxNAMExx"),
-        (title: "SPM Template", value: "xxSPMxNAMExx")
+        (title: "PROJECT Template", value: "xxPROJECTxNAMExx"),
+        (title: "SPM Template", value: "xxSPMxNAMExx"),
+        (title: "TCA Template", value: "xxTCAxNAMExx"),
     ]
 
     print("请选择模版：")
