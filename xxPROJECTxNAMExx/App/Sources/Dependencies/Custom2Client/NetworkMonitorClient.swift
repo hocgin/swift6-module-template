@@ -7,6 +7,7 @@ import Network
 struct NetworkMonitorClient {
     var isOnline: @Sendable () -> Bool = { true }
     public var delegate: @Sendable () async -> AsyncStream<Action> = { .never }
+    public var statusStream: @Sendable () async throws -> AsyncStream<Bool>
 
     enum Action: Equatable {
         case online
@@ -26,6 +27,19 @@ extension NetworkMonitorClient {
                 let delegate = await task.value
                 return AsyncStream { delegate.registerContinuation($0) }
             },
+            statusStream: {
+                AsyncStream { continuation in
+                    let monitor = NWPathMonitor()
+                    monitor.pathUpdateHandler = { path in
+                        continuation.yield(path.status == .satisfied)
+                    }
+                    monitor.start(queue: .global())
+
+                    continuation.onTermination = { _ in
+                        monitor.cancel()
+                    }
+                }
+            }
         )
     }
 
@@ -48,8 +62,7 @@ extension NetworkMonitorClient {
                         connectionType = nil
                     }
 
-                    debugPrint("------> \(connectionType)")
-                    if isConnected {
+                    if let connectionType {
                         self.send(.online)
                     } else {
                         self.send(.offline)

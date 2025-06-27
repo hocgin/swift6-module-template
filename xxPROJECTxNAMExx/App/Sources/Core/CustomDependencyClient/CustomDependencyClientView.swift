@@ -32,6 +32,7 @@ struct CustomDependencyClient {
     enum CancelID: Int {
         case customClient
         case networkMonitorClient
+        case networkMonitorClient2
     }
 
     @ReducerBuilder<State, Action>
@@ -67,32 +68,59 @@ struct CustomDependencyClient {
             case .onAppear:
                 debugPrint("加载项 新数据..")
                 state.isLoading = true
-                return .concatenate(
-                    .run { send in
-                        await withTaskGroup(of: Void.self) { group in
-                            group.addTask {
-                                await withTaskCancellation(
-                                    id: CancelID.customClient,
-                                    cancelInFlight: true
-                                ) {
-                                    for await action in await customClient.delegate() {
-                                        await send(.customClient(action))
-                                    }
-                                }
-                            }
-                            group.addTask {
-                                await withTaskCancellation(
-                                    id: CancelID.networkMonitorClient,
-                                    cancelInFlight: false
-                                ) {
-                                    for await action in await networkMonitorClient.delegate() {
-                                        await send(.networkMonitorClient(action))
-                                    }
-                                }
-                            }
+                return .run { send in
+                    do {
+//                        for await status in try await networkMonitorClient.statusStream() {
+//                            debugPrint("---> status = \(status)")
+//                            await send(.networkMonitorClient(status ? .online : .offline))
+//                        }
+
+                        for await action in await networkMonitorClient.delegate() {
+                            debugPrint("---> status = \(action)")
+                            await send(.networkMonitorClient(action))
                         }
-                    }
-                )
+
+                    } catch {}
+                }
+//                return .concatenate(
+//                    .run { send in
+//                        await withTaskGroup(of: Void.self) { group in
+//                            group.addTask {
+//                                await withTaskCancellation(
+//                                    id: CancelID.customClient,
+//                                    cancelInFlight: true
+//                                ) {
+//                                    for await action in await customClient.delegate() {
+//                                        await send(.customClient(action))
+//                                    }
+//                                }
+//                            }
+//                            group.addTask {
+//                                await withTaskCancellation(
+//                                    id: CancelID.networkMonitorClient,
+//                                    cancelInFlight: false
+//                                ) {
+//                                    for await action in await networkMonitorClient.delegate() {
+//                                        await send(.networkMonitorClient(action))
+//                                    }
+//                                }
+//                            }
+//
+//                            group.addTask {
+//                                await withTaskCancellation(
+//                                    id: CancelID.networkMonitorClient2,
+//                                    cancelInFlight: false
+//                                ) {
+//                                    do {
+//                                        for await status in try await networkMonitorClient.statusStream() {
+//                                            await send(.networkMonitorClient(status ? .online : .offline))
+//                                        }
+//                                    } catch {}
+//                                }
+//                            }
+//                        }
+//                    }
+//                )
             case let .loaded(result):
                 debugPrint("加载完成..\(result)")
                 state.isLoading = false
