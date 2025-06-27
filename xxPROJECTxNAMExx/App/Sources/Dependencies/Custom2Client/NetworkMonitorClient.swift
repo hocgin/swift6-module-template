@@ -5,11 +5,12 @@ import Network
 
 @DependencyClient
 struct NetworkMonitorClient {
+    var isOnline: @Sendable () -> Bool = { true }
     public var delegate: @Sendable () async -> AsyncStream<Action> = { .never }
 
     enum Action: Equatable {
-        case online(NWInterface.InterfaceType?)
-        case offline(NWInterface.InterfaceType?)
+        case online
+        case offline
     }
 }
 
@@ -20,6 +21,7 @@ extension NetworkMonitorClient {
         }
 
         return Self(
+            isOnline: { true },
             delegate: { @MainActor in
                 let delegate = await task.value
                 return AsyncStream { delegate.registerContinuation($0) }
@@ -34,10 +36,6 @@ extension NetworkMonitorClient {
 
         init() {
             self.continuations = .init([:])
-            startMonitoring()
-        }
-
-        private func startMonitoring() {
             monitor.pathUpdateHandler = { path in
                 Task { @MainActor in
                     let isConnected = path.status == .satisfied
@@ -50,14 +48,18 @@ extension NetworkMonitorClient {
                         connectionType = nil
                     }
 
+                    debugPrint("------> \(connectionType)")
                     if isConnected {
-                        self.send(.online(connectionType))
+                        self.send(.online)
                     } else {
-                        self.send(.offline(connectionType))
+                        self.send(.offline)
                     }
                 }
             }
+            startMonitoring()
+        }
 
+        private func startMonitoring() {
             monitor.start(queue: queue)
         }
 

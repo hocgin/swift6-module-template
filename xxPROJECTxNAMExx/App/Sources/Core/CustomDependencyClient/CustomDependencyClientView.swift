@@ -12,6 +12,7 @@ import SwiftUI
 struct CustomDependencyClient {
     @Dependency(\.customClient) var customClient
     @Dependency(\.networkMonitorClient) var networkMonitorClient
+    @Dependency(\.networkMonitorClient.isOnline) var testIsOnline
 
     @ObservableState
     struct State: Equatable, Identifiable {
@@ -39,16 +40,23 @@ struct CustomDependencyClient {
             switch action {
             case let .customClient(.didUpdateConnected(isConnected, type)):
                 debugPrint("isConnected = \(isConnected), type = \(type)")
-                state.isConnected = isConnected
-                return .none
-            case let .networkMonitorClient(status):
-                debugPrint("networkMonitorClient: status = \(status)")
 //                state.isConnected = isConnected
+                return .none
+            case let .networkMonitorClient(type):
+                debugPrint("networkMonitorClient: status = \(type)")
+                switch type {
+                case .online:
+                    state.isConnected = true
+                default:
+                    state.isConnected = false
+                }
                 return .none
             default:
                 return .none
             }
         }
+
+//        .onChange(of: customClient.isConnected ?? false) {}
     }
 
     var body: some ReducerOf<Self> {
@@ -75,7 +83,7 @@ struct CustomDependencyClient {
                             group.addTask {
                                 await withTaskCancellation(
                                     id: CancelID.networkMonitorClient,
-                                    cancelInFlight: true
+                                    cancelInFlight: false
                                 ) {
                                     for await action in await networkMonitorClient.delegate() {
                                         await send(.networkMonitorClient(action))
@@ -93,6 +101,7 @@ struct CustomDependencyClient {
                 return .none
             }
         }
+//        .onChange(of: customClient., <#T##reducer: (Equatable, Equatable) -> Reducer##(Equatable, Equatable) -> Reducer##(_ oldValue: Equatable, _ newValue: Equatable) -> Reducer#>)
     }
 }
 
