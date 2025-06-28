@@ -36,7 +36,7 @@ func migration(migrator: inout DatabaseMigrator) {
     }
 }
 
-///
+/// ==============================================================================================================================
 func appDatabase() throws -> any DatabaseWriter {
     @Dependency(\.context) var context
     let database: any DatabaseWriter
