@@ -12,11 +12,20 @@ import SwiftUI
 
 @Reducer
 struct Boot {
-    @ObservableState
-    struct State {}
+    /// 状态
+    @ObservableState struct State {
+        @Shared(.path) var path
+        @Presents var destination: Destination.State?
+    }
 
+    /// 弹窗
+    @Reducer enum Destination {}
+
+    /// 事件
     enum Action: Sendable {
-//        case path(StackActionOf<AppPath>)
+        case onAppear
+        case path(StackActionOf<AppPath>)
+        case destination(PresentationAction<Destination.Action>)
     }
 
     var body: some ReducerOf<Self> {
@@ -26,22 +35,26 @@ struct Boot {
                 return .none
             }
         }
+        .ifLet(\.$destination, action: \.destination)
     }
 }
 
 struct BootView: View {
     @Bindable var store: StoreOf<Boot>
 
-    @Shared(.path) var path
     var body: some View {
-        NavigationStack(path: Binding($path)) {
+        NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
             MainView()
-                .navigationDestination(for: AppPath.self) { path in
-                    switch path {
-                    case let .error(error): ErrorView(.wrap(error))
-                    default: Text("\(path)")
-                    }
+        } destination: { store in
+            WithPerceptionTracking {
+                switch store.case {
+                case .main: MainView()
+                case let .error(store): AsErrorView(store: store)
+                default:
+                    Text("not found AppPath = \(store.case) View")
                 }
+            }
         }
+        .onAppear { store.send(.onAppear) }
     }
 }

@@ -11,10 +11,10 @@ import SwiftUIErrorUI
 import SwiftUIMessage
 
 @Reducer
-struct AppError {
+struct AsError {
     @ObservableState
-    struct State {
-        var error: SwiftUIError.AppError
+    struct State: Equatable {
+        var error: AppError
     }
 
     enum Action: BindableAction, Sendable {
@@ -33,8 +33,8 @@ struct AppError {
     }
 }
 
-struct AppErrorView: View {
-    @Bindable var store: StoreOf<AppError>
+struct AsErrorView: View {
+    @Bindable var store: StoreOf<AsError>
 
     @State private var isLoading = false
     @State var fileContent: [String]?
@@ -54,7 +54,7 @@ struct AppErrorView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             }
             else {
-                SwiftUIErrorUI.AppErrorView(store.error, mailView: { AnyView(mailView) }) { withHome() }
+                AppErrorView(store.error, mailView: { AnyView(mailView) }) { withHome() }
             }
         }
         .navigationBarBackButtonHidden(true)

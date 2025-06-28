@@ -7,23 +7,23 @@
 import ComposableArchitecture
 import SwiftUIError
 
-// @Reducer
+@Reducer
 @CasePathable
-@dynamicMemberLookup
-enum AppPath: Hashable {
+// @dynamicMemberLookup
+enum AppPath {
     case main
     case dev
     case paywall
-    case error(AppError)
+    case error(AsError)
 }
 
-// extension AppPath.State: Equatable {}
+extension AppPath.State: Equatable {}
 
-extension SharedKey where Self == InMemoryKey<[AppPath]>.Default {
+extension SharedKey where Self == InMemoryKey<StackState<AppPath.State>>.Default {
     static var path: Self {
         Self[
             .inMemory("path"),
-            default: []
+            default: StackState([])
         ]
     }
 }
