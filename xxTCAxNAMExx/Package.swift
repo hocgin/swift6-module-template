@@ -32,7 +32,7 @@ let package = Package(
         .package(url: "git@github.com:hocgin/SwiftExtensionsKit.git", .upToNextMajor(from: "1.0.0")),
         /// - Feature
         .package(url: "git@github.com:hocgin/SwiftPermissionKit.git", .upToNextMajor(from: "1.0.0")),
-        .package(url: "git@github.com:hocgin/SwiftNetworkKit.git", .upToNextMajor(from: "1.0.0")),
+        .package(url: "git@github.com:hocgin/SwiftNetworkKit.git", .upToNextMajor(from: "1.0.1")),
         .package(url: "git@github.com:hocgin/CacheKit.git", .upToNextMajor(from: "1.0.2")),
         .package(url: "git@github.com:hocgin/HTTPRequestKit.git", .upToNextMajor(from: "1.0.6")),
         /// - UI

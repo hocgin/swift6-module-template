@@ -1,5 +1,5 @@
 {
-  "originHash" : "16745109ee5c763ac66e4da9109c6c06d3b6b9059e021797ad62d83fadce229f",
+  "originHash" : "9a53dde9b235aaf1f9a61ad71984ee8b4bd1262b05a041292395eeef7981cb9b",
   "pins" : [
     {
       "identity" : "cache",
@@ -258,8 +258,8 @@
       "kind" : "remoteSourceControl",
       "location" : "git@github.com:hocgin/SwiftNetworkKit.git",
       "state" : {
-        "revision" : "56693f970e1d58001c6e1aca5d43ed9d41c23fed",
-        "version" : "1.0.0"
+        "revision" : "bf0dfa3cc68ee1ddb58498239ec04e3bee3f2aa5",
+        "version" : "1.0.1"
       }
     },
     {
