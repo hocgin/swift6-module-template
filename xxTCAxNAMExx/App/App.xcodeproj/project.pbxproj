@@ -185,7 +185,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1600;
-				LastUpgradeCheck = 1600;
+				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					D99B79E22CA4E2B30010B87C = {
 						CreatedOnToolsVersion = 16.0;
@@ -477,7 +477,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.AN.ORGANIZATION.IDENTIFIER.Example;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRIP_STYLE = "non-global";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
