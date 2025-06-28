@@ -38,10 +38,8 @@ struct BootView: View {
             MainView()
                 .navigationDestination(for: AppPath.self) { path in
                     switch path {
-                    case let .error(error):
-                        ErrorView(appError: .wrap(error))
-                    default:
-                        Text("\(path)")
+                    case let .error(error): ErrorView(.wrap(error))
+                    default: Text("\(path)")
                     }
                 }
         }

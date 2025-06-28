@@ -11,6 +11,10 @@ import SwiftUIMessage
 
 struct ErrorView: View {
     let appError: AppError
+    init(_ appError: AppError) {
+        self.appError = appError
+    }
+
     @State private var isLoading = false
     @State var fileContent: [String]?
 
