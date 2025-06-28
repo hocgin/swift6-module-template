@@ -19,18 +19,24 @@ struct Boot {
     }
 
     /// 弹窗
-    @Reducer enum Destination {}
+    @Reducer enum Destination {
+        case paywall(PayWall)
+    }
 
     /// 事件
     enum Action: Sendable {
         case onAppear
         case path(StackActionOf<AppPath>)
         case destination(PresentationAction<Destination.Action>)
+        case open(Destination.State?)
     }
 
     var body: some ReducerOf<Self> {
-        Reduce { _, action in
+        Reduce { store, action in
             switch action {
+            case let .open(destination):
+                store.destination = destination
+                return .none
             default:
                 return .none
             }
@@ -44,17 +50,18 @@ struct BootView: View {
 
     var body: some View {
         NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
-            MainView()
+            MainView(store: .init(initialState: Main.State(), reducer: Main.init))
         } destination: { store in
             WithPerceptionTracking {
                 switch store.case {
-                case .main: MainView()
+                case let .main(store): MainView(store: store)
+                case let .paywall(store): PayWallView(store: store)
                 case let .error(store): AsErrorView(store: store)
-                default:
-                    Text("not found AppPath = \(store.case) View")
+                default: Text("not found AppPath = \(store.case) View")
                 }
             }
         }
+        .sheet(item: $store.scope(state: \.destination?.paywall, action: \.destination.paywall), content: PayWallView.init)
         .onAppear { store.send(.onAppear) }
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 @Reducer
-struct Tpl {
+struct PayWall {
     @ObservableState
     struct State: Equatable {}
 
@@ -29,13 +29,12 @@ struct Tpl {
     }
 }
 
-struct TplView: View {
-    @Bindable var store: StoreOf<Tpl>
+struct PayWallView: View {
+    @Bindable var store: StoreOf<PayWall>
 
     var body: some View {
         VStack {
-//            Text("Todo.\(store.id)")
-//            Text("\(store.isLoading ? "加载中" : "加载完成")")
+            Text("PayWall")
         }
         .onAppear {
             store.send(.onAppear)
@@ -45,12 +44,12 @@ struct TplView: View {
 
 /// =======================================================
 
-extension Tpl.State {
+extension PayWall.State {
     static let mock: Self = .init()
 }
 
 #Preview {
-    TplView(
-        store: Store(initialState: .mock) { Tpl() }
+    PayWallView(
+        store: Store(initialState: .mock) { PayWall() }
     )
 }

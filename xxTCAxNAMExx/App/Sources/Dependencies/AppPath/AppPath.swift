@@ -11,9 +11,9 @@ import SwiftUIError
 @CasePathable
 // @dynamicMemberLookup
 enum AppPath {
-    case main
+    case main(Main)
     case dev
-    case paywall
+    case paywall(PayWall)
     case error(AsError)
 }
 
