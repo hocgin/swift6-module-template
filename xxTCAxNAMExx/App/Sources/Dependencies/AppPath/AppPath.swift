@@ -13,6 +13,7 @@ import SwiftUIError
 enum AppPath: Hashable {
     case main
     case dev
+    case paywall
     case error(AppError)
 }
 

@@ -10,6 +10,7 @@ import SwiftUI
 extension BootView {
     func askAppGuide() -> some View {
         self.askGuide(.init(
+            forceShow: true,
             items: [
                 .init(title: "Welcome to PlayStation", subtitle: "Your journey starts here",
                       content: { _ in

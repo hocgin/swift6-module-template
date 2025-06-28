@@ -10,6 +10,7 @@ import SwiftUI
 extension View {
     func askAppChangeLog(_ action: @escaping () -> Void) -> some View {
         self.askChangeLog(.init(
+            forceShow: true,
             publishAt: .now,
             version: "1.6",
             description: "优化了多项功能来提升你的使用体验，快来试试吧!",
