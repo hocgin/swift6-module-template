@@ -27,7 +27,7 @@ let package = Package(
         .package(url: "https://github.com/pointfreeco/swift-tagged.git", .upToNextMajor(from: "0.10.0")),
         .package(url: "https://github.com/tgrapperon/swift-dependencies-additions.git", .upToNextMajor(from: "1.1.1")),
         /// - Core
-        .package(url: "git@github.com:hocgin/SwiftUIError.git", .upToNextMajor(from: "1.0.2")),
+        .package(url: "git@github.com:hocgin/SwiftUIError.git", .upToNextMajor(from: "1.0.3")),
         .package(url: "git@github.com:hocgin/SwiftLogKit.git", .upToNextMajor(from: "1.0.1")),
         .package(url: "git@github.com:hocgin/SwiftExtensionsKit.git", .upToNextMajor(from: "1.0.0")),
         /// - Feature
