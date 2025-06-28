@@ -4,16 +4,37 @@
 //
 //  Created by hocgin on 2025/6/28.
 //
+import ComposableArchitecture
 import SwiftLogKit
 import SwiftUI
 import SwiftUIErrorUI
 import SwiftUIMessage
 
-struct ErrorView: View {
-    let appError: AppError
-    init(_ appError: AppError) {
-        self.appError = appError
+@Reducer
+struct AppError {
+    @ObservableState
+    struct State {
+        var error: SwiftUIError.AppError
     }
+
+    enum Action: BindableAction, Sendable {
+        case binding(BindingAction<State>)
+        case onAppear
+    }
+
+    var body: some ReducerOf<Self> {
+        BindingReducer()
+        Reduce { _, action in
+            switch action {
+            default:
+                return .none
+            }
+        }
+    }
+}
+
+struct AppErrorView: View {
+    @Bindable var store: StoreOf<AppError>
 
     @State private var isLoading = false
     @State var fileContent: [String]?
@@ -33,7 +54,7 @@ struct ErrorView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             }
             else {
-                AppErrorView(appError, mailView: { AnyView(mailView) }) { withHome() }
+                SwiftUIErrorUI.AppErrorView(store.error, mailView: { AnyView(mailView) }) { withHome() }
             }
         }
         .navigationBarBackButtonHidden(true)
