@@ -10,9 +10,6 @@ import Dependencies
 import SwiftLogKit
 import SwiftUI
 
-// @Reducer
-// extension AppRoute.State: Equatable {}
-
 @Reducer
 struct Boot {
     @ObservableState
@@ -42,7 +39,10 @@ struct BootView: View {
             MainView()
         } destination: { store in
             WithPerceptionTracking {
-                Text("\(store.case)")
+                switch store.case {
+                default:
+                    Text("\(store.case)")
+                }
             }
         }
     }

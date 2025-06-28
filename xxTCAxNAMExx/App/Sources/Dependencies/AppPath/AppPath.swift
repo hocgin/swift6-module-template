@@ -9,6 +9,7 @@ import ComposableArchitecture
 @Reducer
 enum AppPath {
     case main
+    case dev
 }
 
 extension AppPath.State: Equatable {}
