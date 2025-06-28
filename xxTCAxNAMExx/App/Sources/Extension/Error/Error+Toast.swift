@@ -12,11 +12,20 @@ import SwiftUIToast
 
 extension Toast {}
 
+func withToastError(_ action: @escaping () throws -> Void) {
+    do {
+        try action()
+    } catch {
+        logger.error("\(error)")
+        Toast.error(error)
+    }
+}
+
 func withToastError(_ action: @escaping () async throws -> Void) async {
     do {
         try await action()
     } catch {
-        logger.info("\(error)")
+        logger.error("\(error)")
         Toast.error(error)
     }
 }

@@ -9,11 +9,18 @@ import SwiftUIError
 
 struct MainView: View {
     var body: some View {
-        Text("MainView")
-            .onTapGesture {
-                withPathError {
-                    throw AppError.unknown
-                }
+        Button("Error View") {
+            withPathError {
+                throw AppError.unknown
             }
+        }
+        .buttonStyle(.bordered)
+
+        Button("Toast") {
+            withToastError {
+                throw AppError.unknown
+            }
+        }
+        .buttonStyle(.bordered)
     }
 }

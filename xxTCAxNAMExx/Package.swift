@@ -83,6 +83,8 @@ let package = Package(
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "SwiftUIErrorUI", package: "SwiftUIError"),
                 .product(name: "SwiftUIToast", package: "SwiftUIToast"),
+                .product(name: "SwiftChangeKit", package: "SwiftChangeKit"),
+                .product(name: "SwiftGuideKit", package: "SwiftGuideKit"),
 //                .product(name: "DependenciesAdditions", package: "swift-dependencies-additions"),
             ],
             swiftSettings: [
