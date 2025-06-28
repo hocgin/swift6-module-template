@@ -9,7 +9,6 @@ import ComposableArchitecture
 import Dependencies
 import SwiftLogKit
 import SwiftUI
-import SwiftUIErrorUI
 
 @Reducer
 struct Boot {
@@ -31,9 +30,9 @@ struct Boot {
 }
 
 struct BootView: View {
-    @Shared(.path) var path
     @Bindable var store: StoreOf<Boot>
 
+    @Shared(.path) var path
     var body: some View {
         NavigationStack(path: Binding($path)) {
             MainView()

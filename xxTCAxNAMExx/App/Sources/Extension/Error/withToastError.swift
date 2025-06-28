@@ -25,7 +25,7 @@ func withToastError(_ action: @escaping () async throws -> Void) async {
     do {
         try await action()
     } catch {
-        logger.error("\(error)")
+        logger.error("\(error.localizedDescription)")
         Toast.error(error)
     }
 }

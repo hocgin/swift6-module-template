@@ -27,7 +27,7 @@ let package = Package(
         .package(url: "https://github.com/pointfreeco/swift-tagged.git", .upToNextMajor(from: "0.10.0")),
         .package(url: "https://github.com/tgrapperon/swift-dependencies-additions.git", .upToNextMajor(from: "1.1.1")),
         /// - Core
-        .package(url: "git@github.com:hocgin/SwiftUIError.git", .upToNextMajor(from: "1.0.4")),
+        .package(url: "git@github.com:hocgin/SwiftUIError.git", .upToNextMajor(from: "1.0.7")),
         .package(url: "git@github.com:hocgin/SwiftLogKit.git", .upToNextMajor(from: "1.0.1")),
         .package(url: "git@github.com:hocgin/SwiftExtensionsKit.git", .upToNextMajor(from: "1.0.0")),
         /// - Feature
@@ -53,11 +53,11 @@ let package = Package(
         .target(
             name: "SharedAit",
             dependencies: [
-                /// SwiftHit
                 .product(name: "SwiftLogKit", package: "SwiftLogKit"),
                 .product(name: "SwiftExtensionsKit", package: "SwiftExtensionsKit"),
                 .product(name: "HTTPRequestKit", package: "HTTPRequestKit"),
                 .product(name: "CacheKit", package: "CacheKit"),
+                .product(name: "SwiftUIError", package: "SwiftUIError"),
                 /// Tagged
                 .product(name: "Tagged", package: "swift-tagged"),
             ],
@@ -81,10 +81,13 @@ let package = Package(
                 .target(name: "SharedAit"),
                 .product(name: "SharingGRDB", package: "sharing-grdb"),
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                .product(name: "SwiftUIProductKit", package: "SwiftUIProductKit"),
                 .product(name: "SwiftUIErrorUI", package: "SwiftUIError"),
                 .product(name: "SwiftUIToast", package: "SwiftUIToast"),
+                .product(name: "SwiftUIWebKit", package: "SwiftUIWebKit"),
                 .product(name: "SwiftChangeKit", package: "SwiftChangeKit"),
                 .product(name: "SwiftGuideKit", package: "SwiftGuideKit"),
+                .product(name: "SwiftNetworkKit", package: "SwiftNetworkKit"),
 //                .product(name: "DependenciesAdditions", package: "swift-dependencies-additions"),
             ],
             swiftSettings: [

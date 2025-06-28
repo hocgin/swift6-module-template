@@ -7,8 +7,7 @@
 
 import ComposableArchitecture
 import SharingGRDB
-import SwiftChangeKit
-import SwiftGuideKit
+import SwiftNetworkKit
 import SwiftUI
 
 @main
@@ -24,9 +23,18 @@ struct BootApp: App {
         }
     }
 
+    @Environment(\.dismiss) var dismiss
     var body: some Scene {
         WindowGroup {
             BootView(store: BootApp.store)
+                .askAppGuide()
+                .askAppChangeLog(toPaywall)
+                .askNetworkMonitor()
         }
+    }
+
+    private func toPaywall() {
+        debugPrint("---> Go Pay")
+        dismiss()
     }
 }

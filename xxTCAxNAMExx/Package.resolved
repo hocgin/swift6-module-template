@@ -1,5 +1,5 @@
 {
-  "originHash" : "ea422852dad429275e603a2cfe7781968ead7d3b20636026b6029c2b7add1367",
+  "originHash" : "16745109ee5c763ac66e4da9109c6c06d3b6b9059e021797ad62d83fadce229f",
   "pins" : [
     {
       "identity" : "cache",
@@ -276,8 +276,8 @@
       "kind" : "remoteSourceControl",
       "location" : "git@github.com:hocgin/SwiftUIError.git",
       "state" : {
-        "revision" : "63199c40ac013726db4372c2c7252cb0fa1a28f8",
-        "version" : "1.0.4"
+        "revision" : "13b4810d60ac761732ad242ed596cb1dc8f87e78",
+        "version" : "1.0.7"
       }
     },
     {
