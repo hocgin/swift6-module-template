@@ -5,20 +5,24 @@
 //  Created by hocgin on 2025/6/28.
 //
 import ComposableArchitecture
+import SwiftUIError
 
-@Reducer
-enum AppPath {
+// @Reducer
+@CasePathable
+@dynamicMemberLookup
+enum AppPath: Hashable {
     case main
     case dev
+    case error(AppError)
 }
 
-extension AppPath.State: Equatable {}
+// extension AppPath.State: Equatable {}
 
-extension SharedKey where Self == InMemoryKey<StackState<AppPath.State>>.Default {
+extension SharedKey where Self == InMemoryKey<[AppPath]>.Default {
     static var path: Self {
         Self[
             .inMemory("path"),
-            default: StackState([])
+            default: []
         ]
     }
 }

@@ -9,16 +9,15 @@ import ComposableArchitecture
 import Dependencies
 import SwiftLogKit
 import SwiftUI
+import SwiftUIErrorUI
 
 @Reducer
 struct Boot {
     @ObservableState
-    struct State: Equatable {
-        @Shared(.path) var path
-    }
+    struct State {}
 
     enum Action: Sendable {
-        case path(StackActionOf<AppPath>)
+//        case path(StackActionOf<AppPath>)
     }
 
     var body: some ReducerOf<Self> {
@@ -32,18 +31,20 @@ struct Boot {
 }
 
 struct BootView: View {
+    @Shared(.path) var path
     @Bindable var store: StoreOf<Boot>
 
     var body: some View {
-        NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+        NavigationStack(path: Binding($path)) {
             MainView()
-        } destination: { store in
-            WithPerceptionTracking {
-                switch store.case {
-                default:
-                    Text("\(store.case)")
+                .navigationDestination(for: AppPath.self) { path in
+                    switch path {
+                    case let .error(error):
+                        ErrorView(appError: .wrap(error))
+                    default:
+                        Text("\(path)")
+                    }
                 }
-            }
         }
     }
 }
