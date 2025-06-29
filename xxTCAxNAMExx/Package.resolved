@@ -1,5 +1,5 @@
 {
-  "originHash" : "9a53dde9b235aaf1f9a61ad71984ee8b4bd1262b05a041292395eeef7981cb9b",
+  "originHash" : "212a21fee67bbda7043b4329715cc9c1041eaf7e64da2cef1387c0de1a3a927f",
   "pins" : [
     {
       "identity" : "cache",
@@ -26,6 +26,15 @@
       "state" : {
         "revision" : "5928286acce13def418ec36d05a001a9641086f2",
         "version" : "1.0.3"
+      }
+    },
+    {
+      "identity" : "confettiswiftui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/simibac/ConfettiSwiftUI.git",
+      "state" : {
+        "revision" : "79666d42b882bf7921b1941fa7c636d681d77980",
+        "version" : "2.0.3"
       }
     },
     {
@@ -295,6 +304,15 @@
       "location" : "git@github.com:hocgin/SwiftUIProductKit.git",
       "state" : {
         "revision" : "1703473146b320f6869d557543d16947bec8a38d",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "swiftuistore",
+      "kind" : "remoteSourceControl",
+      "location" : "git@github.com:hocgin/SwiftUIStore.git",
+      "state" : {
+        "revision" : "9c82fef77e8519e5fe2501c1889479d600ba0cff",
         "version" : "1.0.0"
       }
     },

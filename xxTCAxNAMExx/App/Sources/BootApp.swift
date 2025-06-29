@@ -9,10 +9,19 @@ import ComposableArchitecture
 import SharingGRDB
 import SwiftNetworkKit
 import SwiftUI
+import SwiftUIStoreUI
 
 @main
 struct BootApp: App {
     @Dependency(\.context) var context
+    static var storeContext = StoreContext(productIds: [
+        "in.hocg.app.weather.weak.20250306",
+        "in.hocg.app.weather.monthly.20250306",
+        "in.hocg.app.weather.annual.20250306",
+        "in.hocg.app.weather.lifetime.20250306",
+    ], onUpdatePurchased: { hasNotPurchased in
+        debugPrint("onUpdatePurchased.hasNotPurchased = \(hasNotPurchased)")
+    })
     static let store = Store(initialState: Boot.State()) { Boot() }
 
     init() {
@@ -31,6 +40,7 @@ struct BootApp: App {
                 .askAppChangeLog(toPaywall)
                 .askNetworkMonitor()
         }
+        .environmentObject(BootApp.storeContext)
     }
 
     private func toPaywall() {

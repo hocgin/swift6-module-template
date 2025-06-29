@@ -48,7 +48,7 @@ struct MainView: View {
         .buttonStyle(.bordered)
 
         Button("PayWall") {
-//            store.send(Boot.Action.open(.sheetPaywall(.init())))
+            withPath(.paywall(.init()))
         }
         .buttonStyle(.bordered)
     }

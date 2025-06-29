@@ -41,6 +41,7 @@ let package = Package(
         .package(url: "git@github.com:hocgin/SwiftChangeKit.git", .upToNextMajor(from: "1.0.0")),
         .package(url: "git@github.com:hocgin/SwiftGuideKit.git", .upToNextMajor(from: "1.0.0")),
         .package(url: "git@github.com:hocgin/SwiftUIToast.git", .upToNextMajor(from: "1.0.4")),
+        .package(url: "git@github.com:hocgin/SwiftUIStore.git", .upToNextMajor(from: "1.0.0")),
     ],
     targets: [
         .target(
@@ -88,6 +89,7 @@ let package = Package(
                 .product(name: "SwiftChangeKit", package: "SwiftChangeKit"),
                 .product(name: "SwiftGuideKit", package: "SwiftGuideKit"),
                 .product(name: "SwiftNetworkKit", package: "SwiftNetworkKit"),
+                .product(name: "SwiftUIStoreUI", package: "SwiftUIStore"),
 //                .product(name: "DependenciesAdditions", package: "swift-dependencies-additions"),
             ],
             swiftSettings: [
